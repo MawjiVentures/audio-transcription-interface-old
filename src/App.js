@@ -10,28 +10,31 @@ class App extends Component {
     this.state = {
       value: 'Please write.'
     };
-  
     this.handleChange = this.handleChange.bind(this);
   }
-  
+
   handleChange(event) {
     this.setState({value: event.target.value});
   }
-  
+
   render() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true });
     const audioUrl = parsedQuery.audioUrl;
     const submitTo = parsedQuery.submitTo
     const assignmentId = parsedQuery.assignmentId
-    
+    let hidden_fields;
+
+    if(assignmentId !== undefined) {
+      hidden_fields = <input type="hidden" name="assignmentId" value={assignmentId}/>
+    };
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Audio Transcription</h1>
+          <h1 className="App-title">Audio Transcription</h1>
         </header>
         <p className="App-intro">
-          To get started, press play button
+      Press the play button to listen to the audio clip.
         </p>
         <AudioPlayer
           autoPlay
@@ -39,11 +42,9 @@ class App extends Component {
           onPlay={e => console.log("onPlay")}
           // other props here
           />
-          <form action={submitTo} method="POST">
-            <label>
-            Answer:
-            <textarea value={this.state.value} onChange={this.handleChange} />
-            </label>
+          <form action={submitTo} method="POST" target="_top">
+            {hidden_fields}
+            <textarea value={this.state.value} onChange={this.handleChange} className="transcription-input" />
             <input type="submit" value="Submit" />
           </form>
       </div>
