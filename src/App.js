@@ -3,27 +3,45 @@ import logo from './logo.svg';
 import './App.css';
 import AudioPlayer from "react-h5-audio-player";
 import queryString from 'qs';
+import { Media, Player, controls, utils } from 'react-media-player'
+import './formatTime'
+const { PlayPause, 
+        CurrentTime, 
+        Progress, 
+        SeekBar, 
+        Duration, 
+        MuteUnmute, 
+        Volume, 
+        Fullscreen } = controls
+const { keyboardControls } = utils
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 'Please write.',
+      initial_time: "",
       current_time: "",
-      time_step_series: []
+      time_step_series: [0]
     };
     this.handleChange = this.handleChange.bind(this);
     this.onPauseHandler = this.onPauseHandler.bind(this);
+    this.onPlayHandler = this.onPlayHandler.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
   
+  onPlayHandler(event) {
+    this.setState({current_time: event.timeStamp})
+    console.log(this.state.current_time)
+  }
+  
   onPauseHandler(event) {
-    this.setState({current_time: event.timeStamp});
+    this.setState({current_time: event.currentTime});
     this.setState({
-      time_step_series: this.state.time_step_series.concat([event.timeStamp])
+      time_step_series: this.state.time_step_series.concat([event.currentTime])
     })
   }
   
@@ -33,6 +51,7 @@ class App extends Component {
     const audioUrl = parsedQuery.audioUrl;
     const submitTo = parsedQuery.submitTo
     const assignmentId = parsedQuery.assignmentId
+
     let hidden_fields;
 
     if(assignmentId !== undefined) {
@@ -46,14 +65,31 @@ class App extends Component {
         </header>
         <p className="App-intro">
       Press the play button to listen to the audio clip.
-        </p>
-        <AudioPlayer
-          autoPlay
-          src={audioUrl}
-          onPlay={e => console.log(this.state.time_step_series)}
-          onPause={e => this.onPauseHandler(e)}
-          // other props here
-          />
+        </p>          
+        <Media>
+          { mediaProps =>
+            <div
+              className="media"
+              onKeyDown={keyboardControls.bind(null, mediaProps)}
+            >
+              <Player
+                src={audioUrl}
+                className="media-player"
+                onPause={e => {
+                  this.onPauseHandler(e)
+                  console.log(this.state.time_step_series)
+                } }
+              />
+              <div className="media-controls">
+                <PlayPause/>
+                <CurrentTime/>
+                <Duration/>
+                <Volume/>
+              </div>
+            </div>
+          }
+        </Media>
+
           <form action={submitTo} method="POST" target="_top">
             {hidden_fields}
             <textarea value={this.state.value} onChange={this.handleChange} className="transcription-input" />

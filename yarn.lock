@@ -5555,6 +5555,12 @@ react-h5-audio-player@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-h5-audio-player/-/react-h5-audio-player-1.0.1.tgz#2e4e7e42eba4e018f04147aa53e90bb02c67577c"
 
+react-media-player@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/react-media-player/-/react-media-player-0.7.1.tgz#7f7c76b9992ea55fb76dc30816388326bda1389d"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-player@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.6.4.tgz#a7410a23ae849aec1f1854040d3f56ccab054c21"
