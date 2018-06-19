@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import AudioPlayer from "react-h5-audio-player";
 import queryString from 'qs';
 import { Media, Player, controls, utils } from 'react-media-player'
 import './formatTime'
 const { PlayPause, 
         CurrentTime, 
         Progress, 
-        SeekBar, 
         Duration, 
-        MuteUnmute, 
-        Volume, 
-        Fullscreen } = controls
+        Volume
+       } = controls
 const { keyboardControls } = utils
 
 class App extends Component {
@@ -26,16 +23,21 @@ class App extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.onPauseHandler = this.onPauseHandler.bind(this);
-    this.onPlayHandler = this.onPlayHandler.bind(this);
+    this.handlePlayPause = this.handlePlayPause.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
   
-  onPlayHandler(event) {
-    this.setState({current_time: event.timeStamp})
-    console.log(this.state.current_time)
+  handlePlayPause(event, media) {
+    console.log(event.key)
+    console.log(media.isPlaying)
+    if (media.isPlaying && event.key == 'Enter') {
+      media.pause()
+    } else if (event.key == 'Enter') {
+      media.play()
+    }
   }
   
   onPauseHandler(event) {
@@ -70,7 +72,6 @@ class App extends Component {
           { mediaProps =>
             <div
               className="media"
-              onKeyDown={keyboardControls.bind(null, mediaProps)}
             >
               <Player
                 src={audioUrl}
@@ -86,15 +87,15 @@ class App extends Component {
                 <Duration/>
                 <Volume/>
               </div>
+              <form action={submitTo} method="POST" target="_top">
+              {hidden_fields}
+              <textarea value={this.state.value} onChange={this.handleChange} onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} className="transcription-input" />
+              <input type="submit" value="Submit" />
+              </form>
             </div>
           }
         </Media>
 
-          <form action={submitTo} method="POST" target="_top">
-            {hidden_fields}
-            <textarea value={this.state.value} onChange={this.handleChange} className="transcription-input" />
-            <input type="submit" value="Submit" />
-          </form>
       </div>
     );
   }
