@@ -8,14 +8,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Please write.'
+      value: 'Please write.',
+      current_time: "",
+      time_step_series: []
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onPauseHandler = this.onPauseHandler.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
+  
+  onPauseHandler(event) {
+    this.setState({current_time: event.timeStamp});
+    this.setState({
+      time_step_series: this.state.time_step_series.concat([event.timeStamp])
+    })
+  }
+  
 
   render() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true });
@@ -39,7 +50,8 @@ class App extends Component {
         <AudioPlayer
           autoPlay
           src={audioUrl}
-          onPlay={e => console.log("onPlay")}
+          onPlay={e => console.log(this.state.time_step_series)}
+          onPause={e => this.onPauseHandler(e)}
           // other props here
           />
           <form action={submitTo} method="POST" target="_top">
