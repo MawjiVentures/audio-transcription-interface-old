@@ -8,7 +8,8 @@ const { PlayPause,
         CurrentTime, 
         Progress, 
         Duration, 
-        Volume
+        Volume,
+        SeekBar
        } = controls
 const { keyboardControls } = utils
 
@@ -16,14 +17,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Please write.',
-      initial_time: "",
+      value: '',
+      value_length: 0,
       current_time: "",
-      time_step_series: [0]
+      time_step_series: [0],
+      text_step_series: [],
+      time_series: [],
+      data: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onPauseHandler = this.onPauseHandler.bind(this);
     this.handlePlayPause = this.handlePlayPause.bind(this);
+    this.onPlayHandler = this.onPlayHandler.bind(this);
   }
 
   handleChange(event) {
@@ -31,20 +36,51 @@ class App extends Component {
   }
   
   handlePlayPause(event, media) {
-    console.log(event.key)
-    console.log(media.isPlaying)
-    if (media.isPlaying && event.key == 'Enter') {
+    if (media.isPlaying && event.key == 'Enter' ) {
       media.pause()
     } else if (event.key == 'Enter') {
       media.play()
     }
   }
   
-  onPauseHandler(event) {
+  onPlayHandler(event) {
+    let current_length = this.state.value.split('\n').filter(item => item != "").length
+    if (this.state.value_length < current_length) {
+      this.setState({
+        text_step_series: 
+        this.state.text_step_series
+        .concat([this.state.value]),
+        value_length: current_length
+      })
+    } else {
+      this.setState({
+        time_step_series: this.state.time_step_series.slice(0, -1)
+      })
+    }
+  }
+  
+  onPauseHandler(event, mediaProps) {
     this.setState({current_time: event.currentTime});
     this.setState({
-      time_step_series: this.state.time_step_series.concat([event.currentTime])
+      time_step_series: this.state.time_step_series.concat([event.currentTime]),
     })
+    if (Math.round(mediaProps.duration) == Math.round(mediaProps.currentTime)) {
+      console.log("done");
+      let start_time = 0;
+      let data = [];
+      this.state.value.split('\n').filter(item => item != "")
+        .forEach((text, index) => {
+          data.push({
+            text: text,
+            start_time: start_time,
+            end_time: this.state.time_step_series[index + 1]
+          })
+          start_time = this.state.time_step_series[index + 1]
+        })
+      this.setState({
+        data: data
+      })
+    }
   }
   
 
@@ -77,9 +113,11 @@ class App extends Component {
                 src={audioUrl}
                 className="media-player"
                 onPause={e => {
-                  this.onPauseHandler(e)
-                  console.log(this.state.time_step_series)
+                  this.onPauseHandler(e, mediaProps)
                 } }
+                onPlay={e => {
+                  this.onPlayHandler(e)
+                }}
               />
               <div className="media-controls">
                 <PlayPause/>
@@ -95,7 +133,6 @@ class App extends Component {
             </div>
           }
         </Media>
-
       </div>
     );
   }
