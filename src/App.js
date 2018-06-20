@@ -21,7 +21,6 @@ class App extends Component {
       current_time: "",
       time_step_series: [0],
       text_step_series: [],
-      time_series: [],
       data: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -45,12 +44,10 @@ class App extends Component {
   onPlayHandler(event) {
     let current_length = this.state.value.split('\n').filter(item => item != "").length
     if (this.state.value_length < current_length) {
-      this.setState({
-        text_step_series:
-        this.state.text_step_series
-        .concat([this.state.value]),
-        value_length: current_length
-      })
+      this.setState({text_step_series: this.state.text_step_series
+                                        .concat([this.state.value]),
+                     value_length: current_length
+                   })
     } else {
       this.setState({
         time_step_series: this.state.time_step_series.slice(0, -1)
@@ -64,7 +61,6 @@ class App extends Component {
       time_step_series: this.state.time_step_series.concat([event.currentTime]),
     })
     if (Math.round(mediaProps.duration) == Math.round(mediaProps.currentTime)) {
-      console.log("done");
       let start_time = 0;
       let data = [];
       this.state.value.split('\n').filter(item => item != "")
@@ -72,10 +68,11 @@ class App extends Component {
           data.push({
             text: text,
             start_time: start_time,
-            end_time: this.state.time_step_series[index + 1]
+            end_time: this.state.time_step_series[index + 1] || mediaProps.duration
           })
           start_time = this.state.time_step_series[index + 1]
         })
+      console.log(data)
       this.setState({
         data: data
       })
