@@ -4,12 +4,11 @@ import './App.css';
 import queryString from 'qs';
 import { Media, Player, controls, utils } from 'react-media-player'
 import './formatTime'
-const { PlayPause, 
-        CurrentTime, 
-        Progress, 
-        Duration, 
-        Volume,
-        SeekBar
+const { PlayPause,
+        CurrentTime,
+        Progress,
+        Duration,
+        Volume
        } = controls
 const { keyboardControls } = utils
 
@@ -34,7 +33,7 @@ class App extends Component {
   handleChange(event) {
     this.setState({value: event.target.value});
   }
-  
+
   handlePlayPause(event, media) {
     if (media.isPlaying && event.key == 'Enter' ) {
       media.pause()
@@ -42,12 +41,12 @@ class App extends Component {
       media.play()
     }
   }
-  
+
   onPlayHandler(event) {
     let current_length = this.state.value.split('\n').filter(item => item != "").length
     if (this.state.value_length < current_length) {
       this.setState({
-        text_step_series: 
+        text_step_series:
         this.state.text_step_series
         .concat([this.state.value]),
         value_length: current_length
@@ -58,7 +57,7 @@ class App extends Component {
       })
     }
   }
-  
+
   onPauseHandler(event, mediaProps) {
     this.setState({current_time: event.currentTime});
     this.setState({
@@ -82,7 +81,7 @@ class App extends Component {
       })
     }
   }
-  
+
 
   render() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true });
@@ -103,7 +102,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
       Press the play button to listen to the audio clip.
-        </p>          
+        </p>
         <Media>
           { mediaProps =>
             <div
