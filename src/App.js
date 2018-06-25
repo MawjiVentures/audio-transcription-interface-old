@@ -22,11 +22,14 @@ class App extends Component {
     const audioUrl = parsedQuery.audioUrl;
     const submitTo = parsedQuery.submitTo
     const assignmentId = parsedQuery.assignmentId
-    let hidden_fields;
+    let hidden_assignment_fields;
+    let hidden_method_fields;
 
     if(assignmentId !== undefined) {
-      hidden_fields = <input type="hidden" name="assignmentId" value={assignmentId}/>
+      hidden_assignment_fields = <input type="hidden" name="assignmentId" value={assignmentId}/>
     };
+
+    hidden_assignment_fields = <input type="hidden" name="_method" value="PATCH" />
 
     return (
       <div className="App">
@@ -43,7 +46,9 @@ class App extends Component {
           // other props here
           />
           <form action={submitTo} method="POST" target="_top">
-            {hidden_fields}
+            {hidden_assignment_fields}
+            {hidden_method_fields}
+
             <textarea value={this.state.value} onChange={this.handleChange} className="transcription-input" />
             <input type="submit" value="Submit" />
           </form>
