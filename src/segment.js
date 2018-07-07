@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import TextHighlight from 'react-text-highlight'
 
 class Segment extends Component {
   constructor(props) {
     super(props)
     this.state = {
       chunk: props.chunk,
-      callback: props.onClick
+      callback: props.onClick,
+      highlight: ""
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleHover = this.handleHover.bind(this);
+    this.handleHoverOut = this.handleHoverOut.bind(this);
   }
   
   handleClick() {
@@ -16,13 +19,27 @@ class Segment extends Component {
   }
   
   handleHover(e) {
-    console.log("mouse over")
+    this.setState({
+      highlight: this.state.chunk.text
+    });
+  }
+  
+  handleHoverOut(e) {
+    this.setState({
+      highlight: ""
+    });
   }
 
   render() {
     return (
-      <div>
-        <p onMouseOver={this.handleHover} onClick={this.handleClick}> {this.state.chunk.text} </p>
+      <div onMouseOver={this.handleHover} 
+           onClick={this.handleClick}
+           onMouseOut={this.handleHoverOut}
+           >
+        <TextHighlight
+          highlight={this.state.highlight}
+          text={this.state.chunk.text}
+        />
       </div>
     )
   }
