@@ -24,6 +24,15 @@ class Transcription extends Component {
         {"start": "20", "end": "25", "text": "lalalalaala"}
       ]
     }
+    
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick(chunk) {
+    console.log("clicked");
+    console.log(chunk.text);
+    console.log(chunk.start);
+    console.log(chunk.end);
   }
 
   render() {
@@ -48,11 +57,10 @@ class Transcription extends Component {
         }
       </Media>
       {
-        this.state.data.map((chunk) => {
-          return <Segment chunk={chunk} />
+        this.state.data.map((chunk, i) => {
+          return <Segment id={i} chunk={chunk} onClick={this.handleClick} />
         })
       }
-      <Segment chunk={this.state.data[0]} />
       </div>
     )
   }
