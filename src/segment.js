@@ -8,16 +8,21 @@ class Segment extends Component {
       callback: props.onClick
     }
     this.handleClick = this.handleClick.bind(this);
+    this.handleHover = this.handleHover.bind(this);
   }
   
   handleClick() {
     this.state.callback(this.state.chunk);
   }
+  
+  handleHover(e) {
+    console.log("mouse over")
+  }
 
   render() {
     return (
       <div>
-        <p onClick={this.handleClick}> {this.state.chunk.text} </p>
+        <p onMouseOver={this.handleHover} onClick={this.handleClick}> {this.state.chunk.text} </p>
       </div>
     )
   }
