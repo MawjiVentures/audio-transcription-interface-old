@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import TextHighlight from 'react-text-highlight'
+import { Media, Player, controls, utils } from 'react-media-player'
+const {
+  PlayPause,
+  CurrentTime,
+  Progress,
+  Duration,
+  Volume
+} = controls
 
 class Segment extends Component {
   constructor(props) {
@@ -11,7 +19,9 @@ class Segment extends Component {
       callback: props.onClick,
       highlight: "",
       isWritable: false,
-      text: props.chunk.text
+      text: props.chunk.text,
+      audioUrl: props.chunk.audioUrl,
+      media: props.media
     }
     this.handleSingleClick = this.handleSingleClick.bind(this);
     this.handleHover = this.handleHover.bind(this);
@@ -20,35 +30,43 @@ class Segment extends Component {
     this.onValueChange = this.onValueChange.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
   }
-  
+
   handleSingleClick() {
     this.state.callback(this.state.chunk);
   }
-  
+
   handleHover(e) {
+    console.log(this.state.media.isPlaying)
+    if (!this.props.media.isPlaying) {
+      this.props.media.play()
+    }
+    this.props.audioHandler(this.state.audioUrl);
     this.setState({
       highlight: this.state.text
     });
   }
-  
+
   handleHoverOut(e) {
+    if (this.props.media.isPlaying) {
+      this.props.media.pause()
+    }
     this.setState({
       highlight: ""
     });
   }
-  
+
   handleDoubleClick(e) {
     this.setState({
       isWritable: true
     })
   }
-  
+
   onValueChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-  
+
   handleClicks(){
   	this.clickCount++;
     if (this.clickCount === 1) {
@@ -63,30 +81,31 @@ class Segment extends Component {
       this.handleDoubleClick();
     }
   }
-  
+
   handleEnter(e) {
     this.setState({
       isWritable: false
     })
   }
 
+
   render() {
+    var audioHandler = this.props.audioHandler;
     return (
-      <div onMouseOver={this.handleHover} 
+      <div onMouseOver={this.handleHover}
            onClick={() => this.handleClicks()}
            onMouseOut={this.handleHoverOut}
            onDoubleClick={this.handleDoubleClick}
            >
-           
         { !this.state.isWritable && <TextHighlight
           highlight={this.state.highlight}
           text={this.state.text}
         />
         }
-        
-        { this.state.isWritable && 
-          <input name="text" 
-                 type='text' 
+
+        { this.state.isWritable &&
+          <input name="text"
+                 type='text'
                  value={this.state.text}
                  onChange={this.onValueChange}
                  onKeyPress={e => {

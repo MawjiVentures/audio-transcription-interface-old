@@ -4,6 +4,7 @@ import './App.css';
 import queryString from 'qs';
 import { Media, Player, controls, utils } from 'react-media-player'
 import './formatTime'
+import Transcription from './transcription'
 const { PlayPause,
         CurrentTime,
         Progress,
