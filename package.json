@@ -5,11 +5,12 @@
   "dependencies": {
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-edit-inline": "^1.0.8",
     "react-h5-audio-player": "^1.0.1",
     "react-media-player": "^0.7.1",
     "react-player": "^1.6.4",
     "react-scripts": "1.1.4",
-    "react-text-highlight": "^0.2.0",
+    "react-text-highlight": "^0.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
