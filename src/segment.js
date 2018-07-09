@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextHighlight from 'react-text-highlight'
 import { Media, Player, controls, utils } from 'react-media-player'
+import './style/segment.scss'
 const {
   PlayPause,
   CurrentTime,
@@ -23,30 +24,22 @@ class Segment extends Component {
       audioUrl: props.chunk.audioUrl,
       media: props.media
     }
-    this.handleSingleClick = this.handleSingleClick.bind(this);
-    this.handleHover = this.handleHover.bind(this);
-    this.handleHoverOut = this.handleHoverOut.bind(this);
-    this.handleDoubleClick = this.handleDoubleClick.bind(this);
-    this.onValueChange = this.onValueChange.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
   }
 
-  handleSingleClick() {
+  handleSingleClick = () => {
     this.state.callback(this.state.chunk);
   }
 
-  handleHover(e) {
-    console.log(this.state.media.isPlaying)
-    if (!this.props.media.isPlaying) {
-      this.props.media.play()
-    }
-    this.props.audioHandler(this.state.audioUrl);
+  handleHover = (e) => {
+    this.props.media.seekTo(this.state.chunk.start)
+    this.props.audioHandler(this.state.chunk.end)
     this.setState({
       highlight: this.state.text
     });
+    this.props.media.play();
   }
 
-  handleHoverOut(e) {
+  handleHoverOut = (e) => {
     if (this.props.media.isPlaying) {
       this.props.media.pause()
     }
@@ -55,34 +48,34 @@ class Segment extends Component {
     });
   }
 
-  handleDoubleClick(e) {
+  handleDoubleClick = (e) => {
     this.setState({
       isWritable: true
     })
   }
 
-  onValueChange(e) {
+  onValueChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
-  handleClicks(){
+  handleClicks = () => {
   	this.clickCount++;
-    if (this.clickCount === 1) {
-      this.singleClickTimer = setTimeout(function() {
-        this.clickCount = 0;
-        this.handleSingleClick();
-      }.bind(this), 300);
-
-    } else if (this.clickCount === 2) {
-      clearTimeout(this.singleClickTimer);
+    // if (this.clickCount === 1) {
+    //   this.singleClickTimer = setTimeout(function() {
+    //     this.clickCount = 0;
+    //     this.handleSingleClick();
+    //   }.bind(this), 300);
+    //
+    // } else
+    if (this.clickCount === 2) {
       this.clickCount = 0;
       this.handleDoubleClick();
     }
   }
 
-  handleEnter(e) {
+  handleEnter = (e) => {
     this.setState({
       isWritable: false
     })
@@ -92,19 +85,21 @@ class Segment extends Component {
   render() {
     var audioHandler = this.props.audioHandler;
     return (
-      <div onMouseOver={this.handleHover}
+      <div className="segment" onMouseOver={this.handleHover}
            onClick={() => this.handleClicks()}
            onMouseOut={this.handleHoverOut}
            onDoubleClick={this.handleDoubleClick}
            >
-        { !this.state.isWritable && <TextHighlight
-          highlight={this.state.highlight}
-          text={this.state.text}
-        />
+        { !this.state.isWritable &&
+          <TextHighlight className="highlight"
+            highlight={this.state.highlight}
+            text={this.state.text}
+          />
         }
 
         { this.state.isWritable &&
-          <input name="text"
+          <textarea className="text-box"
+                 name="text"
                  type='text'
                  value={this.state.text}
                  onChange={this.onValueChange}
@@ -113,7 +108,7 @@ class Segment extends Component {
                      this.handleEnter(e)
                    }
                  }}
-                 ></input>
+                 ></textarea>
         }
       </div>
     )

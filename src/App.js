@@ -94,43 +94,44 @@ class App extends Component {
     };
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Audio Transcription</h1>
-        </header>
-        <p className="App-intro">
-      Press the play button to listen to the audio clip.
-        </p>
-        <Media>
-          { mediaProps =>
-            <div
-              className="media"
-            >
-              <Player
-                src={audioUrl}
-                className="media-player"
-                onPause={e => {
-                  this.onPauseHandler(e, mediaProps)
-                } }
-                onPlay={e => {
-                  this.onPlayHandler(e)
-                }}
-              />
-              <div className="media-controls">
-                <PlayPause/>
-                <CurrentTime/>
-                <Duration/>
-                <Volume/>
-              </div>
-              <form action={submitTo} method="POST" target="_top">
-              {hidden_fields}
-              <textarea value={this.state.value} onChange={this.handleChange} onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} className="transcription-input" />
-              <input type="submit" value="Submit" />
-              </form>
-            </div>
-          }
-        </Media>
-      </div>
+      // <div className="App">
+      //   <header className="App-header">
+      //     <h1 className="App-title">Audio Transcription</h1>
+      //   </header>
+      //   <p className="App-intro">
+      // Press the play button to listen to the audio clip.
+      //   </p>
+      //   <Media>
+      //     { mediaProps =>
+      //       <div
+      //         className="media"
+      //       >
+      //         <Player
+      //           src={audioUrl}
+      //           className="media-player"
+      //           onPause={e => {
+      //             this.onPauseHandler(e, mediaProps)
+      //           } }
+      //           onPlay={e => {
+      //             this.onPlayHandler(e)
+      //           }}
+      //         />
+      //         <div className="media-controls">
+      //           <PlayPause/>
+      //           <CurrentTime/>
+      //           <Duration/>
+      //           <Volume/>
+      //         </div>
+      //         <form action={submitTo} method="POST" target="_top">
+      //         {hidden_fields}
+      //         <textarea value={this.state.value} onChange={this.handleChange} onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} className="transcription-input" />
+      //         <input type="submit" value="Submit" />
+      //         </form>
+      //       </div>
+      //     }
+      //   </Media>
+      <Transcription />
+      // </div>
     );
   }
 }
