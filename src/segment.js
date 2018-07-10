@@ -103,12 +103,11 @@ class Segment extends Component {
                  type='text'
                  value={this.state.text}
                  onChange={this.onValueChange}
-                 onKeyPress={e => {
-                   if (e.key === 'Enter') {
-                     this.handleEnter(e)
-                   }
-                 }}
                  ></textarea>
+
+        }
+        {
+          this.state.isWritable && <button onClick={this.handleEnter}>Edit</button>
         }
       </div>
     )
