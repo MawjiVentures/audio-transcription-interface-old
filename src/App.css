@@ -28,9 +28,8 @@
 }
 
 .transcription-input {
-  width: 100vh;
+  width: 40vh;
   height: 50vh;
-  padding: 2em;
 }
 
 input[type="submit"] {

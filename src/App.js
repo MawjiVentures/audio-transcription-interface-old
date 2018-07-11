@@ -24,17 +24,13 @@ class App extends Component {
       text_step_series: [],
       data: []
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.onPauseHandler = this.onPauseHandler.bind(this);
-    this.handlePlayPause = this.handlePlayPause.bind(this);
-    this.onPlayHandler = this.onPlayHandler.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({value: event.target.value});
   }
 
-  handlePlayPause(event, media) {
+  handlePlayPause = (event, media) => {
     if (media.isPlaying && event.key == 'Enter' ) {
       media.pause()
     } else if (event.key == 'Enter') {
@@ -42,7 +38,7 @@ class App extends Component {
     }
   }
 
-  onPlayHandler(event) {
+  onPlayHandler = (event) => {
     let current_length = this.state.value.split('\n').filter(item => item != "").length
     if (this.state.value_length < current_length) {
       this.setState({text_step_series: this.state.text_step_series
@@ -56,7 +52,7 @@ class App extends Component {
     }
   }
 
-  onPauseHandler(event, mediaProps) {
+  onPauseHandler = (event, mediaProps) => {
     this.setState({current_time: event.currentTime});
     this.setState({
       time_step_series: this.state.time_step_series.concat([event.currentTime]),
@@ -73,7 +69,7 @@ class App extends Component {
           })
           start_time = this.state.time_step_series[index + 1]
         })
-      console.log(data)
+      // console.log(data)
       this.setState({
         data: data
       })
