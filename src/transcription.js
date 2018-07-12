@@ -22,10 +22,7 @@ class Transcription extends Component {
       tempStart: "0",
       tempEnd: "0",
       value: '',
-      value_length: 0,
       current_time: "",
-      time_step_series: [0],
-      text_step_series: [],
       data: [],
       attemped: false,
       start: 0,
@@ -52,45 +49,44 @@ class Transcription extends Component {
   handlePlayPause = (event, media) => {
     if (media.isPlaying && event.key == 'Enter' ) {
       media.pause()
-    } else if (event.key == 'Enter') {
+    } else if (event.key == 'Enter' && this.state.attemped !== true) {
       media.play()
     }
   }
 
-  onPlayHandler = (event) => {
-    let current_length = this.state.value.split('\n').filter(item => item != "").length
-    if (this.state.value_length < current_length) {
-      this.setState({text_step_series: this.state.text_step_series
-                                        .concat([this.state.value]),
-                     value_length: current_length
-                   });
-    } else {
+  onPlayHandler = (event, mediaProps) => {
+    let current_text = this.state.value;
+    if (this.state.attemped == true) {
       this.setState({
-        time_step_series: this.state.time_step_series.slice(0, -1);
+        data: [...this.state.data, {
+          text: this.state.value,
+          start: Math.floor(this.state.start),
+          end: Math.floor(mediaProps.duration)
+        }],
+        value: ''
       })
+    }
+    else if (current_text.length > 1) {
+      this.setState({
+        data: [...this.state.data, {
+          text: current_text,
+          start: Math.floor(this.state.start),
+          end: Math.floor(this.state.current_time)
+        }],
+        start: Math.floor(this.state.current_time),
+        value: ''
+      });
     }
   }
 
   onPauseHandler = (event, mediaProps) => {
     this.setState({current_time: event.currentTime});
-    this.setState({
-      time_step_series: this.state.time_step_series.concat([event.currentTime]),
-    })
-    if (Math.round(mediaProps.duration) == Math.round(mediaProps.currentTime)) {
-      let start = 0;
-      let data = [];
-      this.state.value.split('\n').filter(item => item != "")
-        .forEach((text, index) => {
-          data.push({
-            text: text,
-            start: start,
-            end: this.state.time_step_series[index + 1] || mediaProps.duration
-          })
-          start = this.state.time_step_series[index + 1]
-        })
-      console.log(data)
+  }
+
+  onFinishHandler = (event, mediaProps) => {
+    if (Math.round(event.currentTime) == Math.round(mediaProps.duration)) {
       this.setState({
-        data: data
+        attemped: true
       })
     }
   }
@@ -122,7 +118,8 @@ class Transcription extends Component {
             <Player src={audioUrl}
                     className="media-player"
                     onPause={e => {this.onPauseHandler(e, mediaProps)}}
-                    onPlay={e => {this.onPlayHandler(e)}} />
+                    onPlay={e => {this.onPlayHandler(e, mediaProps)}}
+                    onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}} />
           <Progress />
           <div className="container">
             <div className="chunks column">
@@ -141,7 +138,7 @@ class Transcription extends Component {
             <div className="column">
               <form action={submitTo} method="POST" target="_top">
                 {hidden_fields}
-                <textarea value={this.state.value} onChange={this.handleChange} onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} className="transcription-input" />
+                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} value={this.state.value} onChange={this.handleChange} className="transcription-input" />
                 <input type="submit" value="Submit" />
               </form>
             </div>

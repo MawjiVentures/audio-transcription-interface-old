@@ -24,6 +24,8 @@ class Segment extends Component {
       audioUrl: props.chunk.audioUrl,
       media: props.media
     }
+    console.log(this.state.chunk.start);
+    console.log(this.state.chunk.end);
   }
 
   handleSingleClick = () => {
