@@ -51,22 +51,21 @@ class Transcription extends Component {
       media.pause()
     } else if (event.key == 'Enter' && this.state.attemped !== true) {
       media.play()
+    } else if (event.key == 'Enter' && this.state.attemped === true) {
+      this.setState({
+        data: [...this.state.data, {
+          text: this.state.value,
+          start: Math.floor(this.state.start),
+          end: Math.floor(media.duration)
+        }],
+        value: ''
+      })
     }
   }
 
   onPlayHandler = (event, mediaProps) => {
     let current_text = this.state.value;
-    if (this.state.attemped == true) {
-      this.setState({
-        data: [...this.state.data, {
-          text: this.state.value,
-          start: Math.floor(this.state.start),
-          end: Math.floor(mediaProps.duration)
-        }],
-        value: ''
-      })
-    }
-    else if (current_text.length > 1) {
+    if (current_text.length > 1 && this.state.attemped == false) {
       this.setState({
         data: [...this.state.data, {
           text: current_text,

@@ -22,7 +22,8 @@ class Segment extends Component {
       isWritable: false,
       text: props.chunk.text,
       audioUrl: props.chunk.audioUrl,
-      media: props.media
+      media: props.media,
+      clicked: false
     }
     console.log(this.state.chunk.start);
     console.log(this.state.chunk.end);
@@ -33,21 +34,32 @@ class Segment extends Component {
   }
 
   handleHover = (e) => {
-    this.props.media.seekTo(this.state.chunk.start)
-    this.props.audioHandler(this.state.chunk.end)
     this.setState({
       highlight: this.state.text
     });
-    this.props.media.play();
   }
 
   handleHoverOut = (e) => {
-    if (this.props.media.isPlaying) {
-      this.props.media.pause()
-    }
     this.setState({
       highlight: ""
     });
+  }
+
+  handleSingleClick = (e) => {
+    console.log(this.state.clicked);
+    if (this.state.clicked == false) {
+      this.props.media.seekTo(this.state.chunk.start)
+      this.props.audioHandler(this.state.chunk.end)
+      this.props.media.play();
+      this.setState({
+        clicked: true
+      })
+    } else {
+      this.props.media.pause();
+      this.setState({
+        clicked: false
+      })
+    }
   }
 
   handleDoubleClick = (e) => {
@@ -64,14 +76,13 @@ class Segment extends Component {
 
   handleClicks = () => {
   	this.clickCount++;
-    // if (this.clickCount === 1) {
-    //   this.singleClickTimer = setTimeout(function() {
-    //     this.clickCount = 0;
-    //     this.handleSingleClick();
-    //   }.bind(this), 300);
-    //
-    // } else
-    if (this.clickCount === 2) {
+    if (this.clickCount === 1) {
+      this.singleClickTimer = setTimeout(function() {
+        this.clickCount = 0;
+        this.handleSingleClick();
+      }.bind(this), 300);
+
+    } else if (this.clickCount === 2) {
       this.clickCount = 0;
       this.handleDoubleClick();
     }
