@@ -26,7 +26,9 @@ class Transcription extends Component {
       data: [],
       attemped: false,
       start: 0,
-      end: 0
+      end: 0,
+      disable: false,
+      count: 0
     }
   }
 
@@ -51,14 +53,19 @@ class Transcription extends Component {
       media.pause()
     } else if (event.key == 'Enter' && this.state.attemped !== true) {
       media.play()
-    } else if (event.key == 'Enter' && this.state.attemped === true && this.state.value.length > 0) {
+    } else if (event.key == 'Enter'
+               && this.state.attemped === true
+               && this.state.disable != true) {
       this.setState({
         data: [...this.state.data, {
+          id: this.state.count,
           text: this.state.value,
           start: Math.floor(this.state.start),
           end: Math.floor(media.duration)
         }],
-        value: ''
+        value: '',
+        disable: true,
+        count: this.state.count + 1
       })
     }
   }
@@ -68,12 +75,14 @@ class Transcription extends Component {
     if (current_text.length > 1 && this.state.attemped == false) {
       this.setState({
         data: [...this.state.data, {
+          id: this.state.count,
           text: current_text,
           start: Math.floor(this.state.start),
           end: Math.floor(this.state.current_time)
         }],
         start: Math.floor(this.state.current_time),
-        value: ''
+        value: '',
+        count: this.state.count + 1
       });
     }
   }
@@ -88,6 +97,20 @@ class Transcription extends Component {
         attemped: true
       })
     }
+  }
+
+  textChangeHandler = (event, id, text) => {
+    var new_data = this.state.data.map((chunk) => {
+      if (chunk.id == id) {
+        console.log("found");
+        chunk.text = text;
+
+      }
+      return chunk;
+    });
+    this.setState({
+      data: new_data
+    })
   }
 
   render() {
@@ -124,18 +147,21 @@ class Transcription extends Component {
             <div className="form">
               <form action={submitTo} method="POST" target="_top">
                 {hidden_fields}
-                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} value={this.state.value} onChange={this.handleChange} className="transcription-input" />
+                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
+                          value={this.state.value} onChange={this.handleChange}
+                          className="transcription-input" />
                 <input type="submit" value="Submit" />
               </form>
             </div>
             <div className="chunks">
               {
                 this.state.data.map((chunk, i) => {
-                  return <Segment id={i}
+                  return <Segment id={chunk.id}
                     chunk={chunk}
                     onClick={this.handleClick}
                     media={mediaProps}
                     audioHandler={this.audioHandler}
+                    textChangeHandler={this.textChangeHandler}
                     />
                 })
               }

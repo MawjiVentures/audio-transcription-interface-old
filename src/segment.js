@@ -15,6 +15,7 @@ class Segment extends Component {
     super(props)
     this.clickCount = 0;
     this.singleClickTimer = '';
+    console.log(this.props.chunk);
     this.state = {
       chunk: props.chunk,
       callback: props.onClick,
@@ -89,36 +90,40 @@ class Segment extends Component {
     this.setState({
       isWritable: false
     })
+    this.props.textChangeHandler(e, this.state.chunk.id, this.state.text);
   }
 
 
   render() {
     var audioHandler = this.props.audioHandler;
     return (
-      <div className="segment" onMouseOver={this.handleHover}
-           onClick={() => this.handleClicks()}
-           onMouseOut={this.handleHoverOut}
-           onDoubleClick={this.handleDoubleClick}
-           >
-        { !this.state.isWritable &&
-          <TextHighlight className="highlight"
-            highlight={this.state.highlight}
-            text={this.state.text}
-          />
-        }
+      <div>
+        <div className="segment"
+          onMouseOver={this.handleHover}
+          onMouseOut={this.handleHoverOut}
+          onClick={() => this.handleClicks()}
+          >
+          { !this.state.isWritable &&
+            <TextHighlight
+              className="highlight"
+              highlight={this.state.highlight}
+              text={this.state.text}
+              />
+          }
 
-        { this.state.isWritable &&
-          <textarea className="text-box"
-                 name="text"
-                 type='text'
-                 value={this.state.text}
-                 onChange={this.onValueChange}
-                 ></textarea>
+          { this.state.isWritable &&
+            <textarea className="text-box"
+              name="text"
+              type='text'
+              value={this.state.text}
+              onChange={this.onValueChange}
+              ></textarea>
 
-        }
-        {
-          this.state.isWritable && <button onClick={this.handleEdit}>Edit</button>
-        }
+          }
+      </div>
+      {
+        this.state.isWritable && <button onClick={this.handleEdit}>Edit</button>
+      }
       </div>
     )
   }
