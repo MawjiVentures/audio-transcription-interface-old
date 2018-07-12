@@ -25,8 +25,6 @@ class Segment extends Component {
       media: props.media,
       clicked: false
     }
-    console.log(this.state.chunk.start);
-    console.log(this.state.chunk.end);
   }
 
   handleSingleClick = () => {
@@ -46,7 +44,6 @@ class Segment extends Component {
   }
 
   handleSingleClick = (e) => {
-    console.log(this.state.clicked);
     if (this.state.clicked == false) {
       this.props.media.seekTo(this.state.chunk.start)
       this.props.audioHandler(this.state.chunk.end)
@@ -88,7 +85,7 @@ class Segment extends Component {
     }
   }
 
-  handleEnter = (e) => {
+  handleEdit = (e) => {
     this.setState({
       isWritable: false
     })
@@ -120,7 +117,7 @@ class Segment extends Component {
 
         }
         {
-          this.state.isWritable && <button onClick={this.handleEnter}>Edit</button>
+          this.state.isWritable && <button onClick={this.handleEdit}>Edit</button>
         }
       </div>
     )

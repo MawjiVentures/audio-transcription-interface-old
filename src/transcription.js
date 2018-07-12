@@ -51,7 +51,7 @@ class Transcription extends Component {
       media.pause()
     } else if (event.key == 'Enter' && this.state.attemped !== true) {
       media.play()
-    } else if (event.key == 'Enter' && this.state.attemped === true) {
+    } else if (event.key == 'Enter' && this.state.attemped === true && this.state.value.length > 0) {
       this.setState({
         data: [...this.state.data, {
           text: this.state.value,
@@ -121,8 +121,14 @@ class Transcription extends Component {
                     onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}} />
           <Progress />
           <div className="container">
-            <div className="chunks column">
-              <h1>Chunks columns</h1>
+            <div className="form">
+              <form action={submitTo} method="POST" target="_top">
+                {hidden_fields}
+                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} value={this.state.value} onChange={this.handleChange} className="transcription-input" />
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <div className="chunks">
               {
                 this.state.data.map((chunk, i) => {
                   return <Segment id={i}
@@ -133,13 +139,6 @@ class Transcription extends Component {
                     />
                 })
               }
-            </div>
-            <div className="column">
-              <form action={submitTo} method="POST" target="_top">
-                {hidden_fields}
-                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}} value={this.state.value} onChange={this.handleChange} className="transcription-input" />
-                <input type="submit" value="Submit" />
-              </form>
             </div>
           </div>
           </div>

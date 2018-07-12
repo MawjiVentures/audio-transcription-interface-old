@@ -28,8 +28,7 @@
 }
 
 .transcription-input {
-  width: 40vh;
-  height: 50vh;
+  width: 100%
 }
 
 input[type="submit"] {
