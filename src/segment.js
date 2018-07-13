@@ -15,7 +15,6 @@ class Segment extends Component {
     super(props)
     this.clickCount = 0;
     this.singleClickTimer = '';
-    console.log(this.props.chunk);
     this.state = {
       chunk: props.chunk,
       callback: props.onClick,
@@ -103,6 +102,10 @@ class Segment extends Component {
           onMouseOut={this.handleHoverOut}
           onClick={() => this.handleClicks()}
           >
+          <div>
+            <p>Start Time: {this.state.chunk.start}</p>
+            <p>End Time: {this.state.chunk.end}</p>
+          </div>
           { !this.state.isWritable &&
             <TextHighlight
               className="highlight"
@@ -118,7 +121,6 @@ class Segment extends Component {
               value={this.state.text}
               onChange={this.onValueChange}
               ></textarea>
-
           }
       </div>
       {

@@ -11,7 +11,8 @@ const {
   CurrentTime,
   Progress,
   Duration,
-  Volume
+  Volume,
+  SeekBar
 } = controls
 
 class Transcription extends Component {
@@ -49,11 +50,11 @@ class Transcription extends Component {
   }
 
   handlePlayPause = (event, media) => {
-    if (media.isPlaying && event.key == 'Enter' ) {
+    if (media.isPlaying && event.key == "Shift" ) {
       media.pause()
-    } else if (event.key == 'Enter' && this.state.attemped !== true) {
+    } else if (event.key == "Shift" && this.state.attemped !== true) {
       media.play()
-    } else if (event.key == 'Enter'
+    } else if (event.key == "Enter"
                && this.state.attemped === true
                && this.state.disable != true) {
       this.setState({
@@ -102,9 +103,7 @@ class Transcription extends Component {
   textChangeHandler = (event, id, text) => {
     var new_data = this.state.data.map((chunk) => {
       if (chunk.id == id) {
-        console.log("found");
         chunk.text = text;
-
       }
       return chunk;
     });
@@ -136,19 +135,25 @@ class Transcription extends Component {
       <Media>
         { mediaProps =>
           <div className="media">
-
             <Player src={audioUrl}
                     className="media-player"
                     onPause={e => {this.onPauseHandler(e, mediaProps)}}
                     onPlay={e => {this.onPlayHandler(e, mediaProps)}}
                     onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}} />
-          <Progress />
+
+          <div className="media-controls">
+            <Progress />
+            <CurrentTime />
+            <SeekBar />
+            <PlayPause />
+          </div>
           <div className="container">
             <div className="form">
               <form action={submitTo} method="POST" target="_top">
                 {hidden_fields}
                 <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
-                          value={this.state.value} onChange={this.handleChange}
+                          value={this.state.value}
+                          onChange={this.handleChange}
                           className="transcription-input" />
                 <input type="submit" value="Submit" />
               </form>
