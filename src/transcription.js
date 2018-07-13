@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logog from './logo.svg';
+import ReactDOM from 'react-dom';
 import './App.css';
 import queryString from 'qs';
 import { Media, Player, controls, utils } from 'react-media-player'
@@ -50,13 +51,23 @@ class Transcription extends Component {
   }
 
   handlePlayPause = (event, media) => {
-    if (media.isPlaying && event.key == "Shift" ) {
-      media.pause()
-    } else if (event.key == "Shift" && this.state.attemped !== true) {
-      media.play()
-    } else if (event.key == "Enter"
-               && this.state.attemped === true
-               && this.state.disable != true) {
+    if (event.key == "Enter" &&
+        this.state.value.length > 0 &&
+        this.state.attemped == false) {
+      this.setState({
+        data: [...this.state.data, {
+          id: this.state.count,
+          text: this.state.value,
+          start: Math.floor(this.state.start),
+          end: Math.floor(this.state.current_time)
+        }],
+        start: Math.floor(this.state.current_time),
+        value: '',
+        disable: true,
+        count: this.state.count + 1
+      })
+      this.player.focus();
+    } else if (event.key == 'Enter' && this.state.attemped == true){
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
@@ -64,27 +75,15 @@ class Transcription extends Component {
           start: Math.floor(this.state.start),
           end: Math.floor(media.duration)
         }],
-        value: '',
         disable: true,
+        value: '',
         count: this.state.count + 1
       })
-    }
-  }
-
-  onPlayHandler = (event, mediaProps) => {
-    let current_text = this.state.value;
-    if (current_text.length > 1 && this.state.attemped == false) {
+    } else if (event.key == "Enter") {
       this.setState({
-        data: [...this.state.data, {
-          id: this.state.count,
-          text: current_text,
-          start: Math.floor(this.state.start),
-          end: Math.floor(this.state.current_time)
-        }],
-        start: Math.floor(this.state.current_time),
-        value: '',
-        count: this.state.count + 1
-      });
+        value: ''
+      })
+      this.player.focus();
     }
   }
 
@@ -97,6 +96,7 @@ class Transcription extends Component {
       this.setState({
         attemped: true
       })
+      this.textbox.focus();
     }
   }
 
@@ -110,6 +110,19 @@ class Transcription extends Component {
     this.setState({
       data: new_data
     })
+  }
+
+  componentDidMount() {
+    this.player.focus();
+  }
+
+  buttonOnClick = (event, mediaProps) => {
+    if (mediaProps.isPlaying) {
+      mediaProps.pause();
+      this.textbox.focus();
+    } else {
+      mediaProps.play();
+    }
   }
 
   render() {
@@ -145,13 +158,21 @@ class Transcription extends Component {
             <Progress />
             <CurrentTime />
             <SeekBar />
-            <PlayPause />
+            <div>
+              <button
+                ref={(player) => {this.player = player; }}
+                onClick={e=> {this.buttonOnClick(e, mediaProps)}}
+                >
+                Play
+              </button>
+            </div>
           </div>
           <div className="container">
             <div className="form">
               <form action={submitTo} method="POST" target="_top">
                 {hidden_fields}
-                <textarea onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
+                <textarea ref={(textbox) => {this.textbox = textbox; }}
+                          onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
                           value={this.state.value}
                           onChange={this.handleChange}
                           className="transcription-input" />
