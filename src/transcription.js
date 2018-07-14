@@ -22,7 +22,7 @@ class Transcription extends Component {
     this.state = {
       audioUrl: '',
       tempStart: "0",
-      tempEnd: "0",
+      tempEnd: 0,
       value: '',
       current_time: "",
       data: [],
@@ -31,12 +31,6 @@ class Transcription extends Component {
       end: 0,
       disable: false,
       count: 0
-    }
-  }
-
-  handleOnPlay = (e, mediaProps) => {
-    if (Math.round(e.currentTime) == parseInt(this.state.tempEnd)) {
-      mediaProps.pause()
     }
   }
 
@@ -97,6 +91,8 @@ class Transcription extends Component {
         attemped: true
       })
       this.textbox.focus();
+    } else if (this.state.tempEnd != 0 && Math.round(event.currentTime) == this.state.tempEnd) {
+      mediaProps.pause()
     }
   }
 
@@ -125,6 +121,14 @@ class Transcription extends Component {
     }
   }
 
+  handleForward = (event, mediaProps) => {
+    mediaProps.seekTo(mediaProps.currentTime + 5);
+  }
+
+  handleBackward = (event, mediaProps) => {
+    mediaProps.seekTo(mediaProps.currentTime - 5);
+  }
+
   render() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true })
     const audioUrl = parsedQuery.audioUrl;
@@ -151,8 +155,8 @@ class Transcription extends Component {
             <Player src={audioUrl}
                     className="media-player"
                     onPause={e => {this.onPauseHandler(e, mediaProps)}}
-                    onPlay={e => {this.onPlayHandler(e, mediaProps)}}
-                    onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}} />
+                    onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}}
+                    />
 
           <div className="media-controls">
             <Progress />
@@ -164,6 +168,16 @@ class Transcription extends Component {
                 onClick={e=> {this.buttonOnClick(e, mediaProps)}}
                 >
                 Play
+              </button>
+              <button
+                onClick={e => {this.handleForward(e, mediaProps)}}
+                >
+                Forward
+              </button>
+              <button
+                onClick={e => {this.handleBackward(e, mediaProps)}}
+                >
+                backward
               </button>
             </div>
           </div>

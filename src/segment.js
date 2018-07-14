@@ -92,6 +92,11 @@ class Segment extends Component {
     this.props.textChangeHandler(e, this.state.chunk.id, this.state.text);
   }
 
+  handleChange = ({target: { value }}) => {
+    this.setState({
+      start: value
+    })
+  }
 
   render() {
     var audioHandler = this.props.audioHandler;
