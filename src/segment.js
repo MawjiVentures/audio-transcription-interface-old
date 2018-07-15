@@ -23,7 +23,9 @@ class Segment extends Component {
       text: props.chunk.text,
       audioUrl: props.chunk.audioUrl,
       media: props.media,
-      clicked: false
+      clicked: false,
+      start: props.chunk.start,
+      end: props.chunk.end
     }
   }
 
@@ -98,6 +100,31 @@ class Segment extends Component {
     })
   }
 
+  handleIncrement = (event, identifier) => {
+    console.log(identifier);
+    if (identifier == "start" && this.state.start + 1 < this.state.media.duration) {
+      this.setState({
+        start: this.state.start + 1
+      })
+    } else if (identifier == "end" && this.state.end + 1 < this.state.media.duration) {
+      this.setState({
+        end: this.state.end + 1
+      })
+    }
+  }
+
+  handleDecrement = (event, identifier) => {
+    if (identifier == "start" && this.state.start - 1 > 0) {
+      this.setState({
+        start: this.state.start - 1
+      })
+    } else if (identifier == "end" && this.state.end - 1 > 0) {
+      this.setState({
+        end: this.state.end - 1
+      })
+    }
+  }
+
   render() {
     var audioHandler = this.props.audioHandler;
     return (
@@ -105,18 +132,37 @@ class Segment extends Component {
         <div className="segment"
           onMouseOver={this.handleHover}
           onMouseOut={this.handleHoverOut}
-          onClick={() => this.handleClicks()}
           >
           <div>
-            <p>Start Time: {this.state.chunk.start}</p>
-            <p>End Time: {this.state.chunk.end}</p>
+            <div>
+              <p>Start Time: {this.state.start}</p>
+              <button
+                onClick={e => {this.handleIncrement(e, "start")}}>
+                Add</button>
+              <button
+                onClick={e => {this.handleDecrement(e, "start")}}
+                >Minus</button>
+            </div>
+            <div>
+              <p>End Time: {this.state.end}</p>
+              <button
+                onClick={e => {this.handleIncrement(e, "end")}}
+                >Add</button>
+              <button
+                onClick={e => {this.handleIncrement(e, "end")}}
+                >Minus</button>
+            </div>
           </div>
           { !this.state.isWritable &&
-            <TextHighlight
-              className="highlight"
-              highlight={this.state.highlight}
-              text={this.state.text}
-              />
+            <div
+              onClick={() => this.handleClicks()}
+              >
+              <TextHighlight
+                className="highlight"
+                highlight={this.state.highlight}
+                text={this.state.text}
+                />
+            </div>
           }
 
           { this.state.isWritable &&

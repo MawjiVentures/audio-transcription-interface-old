@@ -47,7 +47,8 @@ class Transcription extends Component {
   handlePlayPause = (event, media) => {
     if (event.key == "Enter" &&
         this.state.value.length > 0 &&
-        this.state.attemped == false) {
+        this.state.attemped == false &&
+        this.state.disable == false) {
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
@@ -57,11 +58,15 @@ class Transcription extends Component {
         }],
         start: Math.floor(this.state.current_time),
         value: '',
-        disable: true,
         count: this.state.count + 1
       })
       this.player.focus();
-    } else if (event.key == 'Enter' && this.state.attemped == true){
+      if (media.isPlaying) {
+        media.pause();
+      }
+    } else if (event.key == 'Enter'
+               && this.state.attemped == true
+               && this.state.disable == false){
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
@@ -86,6 +91,7 @@ class Transcription extends Component {
   }
 
   onFinishHandler = (event, mediaProps) => {
+    this.setState({current_time: event.currentTime});
     if (Math.round(event.currentTime) == Math.round(mediaProps.duration)) {
       this.setState({
         attemped: true
@@ -118,6 +124,7 @@ class Transcription extends Component {
       this.textbox.focus();
     } else {
       mediaProps.play();
+      this.textbox.focus();
     }
   }
 
