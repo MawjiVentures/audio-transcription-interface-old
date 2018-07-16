@@ -1,10 +1,22 @@
+@mixin button-bg($bg) {
+  background: $bg;
+  &:hover {
+    background: darken($bg, 8%);
+    transition: all 0.3s ease;
+  }
+
+  &:active {
+    background: darken($bg, 25%);
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
 
   .chunks {
     min-height: 600px;
-    background-color: #f2f2f2;
+    background-color: #c9e9f6;
   }
 }
 
@@ -15,20 +27,38 @@
   }
 }
 
-
 .transcription {
   width: 700px;
   height: 100%;
-  background-color: #f2f2f2;
+  background-color: #f3fafd;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 100px;
 
   .media {
     margin-left: auto;
     margin-right: auto;
     .media-player {
       height: 25px;
+    }
+
+    button {
+      margin: 0 5px 0 5px;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.8em;
+    }
+
+    .play-button {
+      @include button-bg(#3498db);
+    }
+
+    .forward-button {
+      @include button-bg(#e74c3c);
+    }
+
+    .backward-botton {
+      @include button-bg(#2ecc71);
     }
   }
 }

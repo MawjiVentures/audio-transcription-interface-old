@@ -1,6 +1,19 @@
+@mixin button-bg($bg) {
+  background: $bg;
+  &:hover {
+    background: darken($bg, 8%);
+    transition: all 0.3s ease;
+  }
+
+  &:active {
+    background: darken($bg, 25%);
+  }
+}
+
 .segment {
-  background: #f2f2f2;
-  border: 2px solid grey;
+  background: #87ceeb;
+  border-radius: 10px;
+  border: 1px solid #45b3e0;
   padding: 5px;
   margin-top: 10px;
   min-height: 60px;
@@ -9,11 +22,44 @@
   text-align: left;
 
   .highlight {
-    foncolor: white;
+    margin-top: 10px;
+    color: black;
+    padding: 5px 5px 5px 5px;
   }
 
   span {
     width: 100%;
+  }
+
+  .chunk-time {
+    div {
+      display: inline-block;
+
+      p {
+        display: inline-block;
+        font-size: 10px;
+        margin-left: 10px;
+      }
+    }
+
+    button {
+      margin: 0 2px 0 2px;
+      text-decoration: none;
+      padding: 2px 2px;
+      border-radius: 3px;
+    }
+
+    .time-control {
+      font-size: 0.8em;
+
+      .inc-button {
+        @include button-bg(#3498db);
+      }
+      .dec-button {
+        @include button-bg(#e74c3c);
+      }
+    }
+
   }
 
   .text-box {
@@ -23,4 +69,9 @@
     padding: 5px;
     font-family: Tahoma, sans-serif;
   }
+}
+
+.edit-button {
+  border-radius: 10px;
+  @include button-bg(#f2f2f2);
 }

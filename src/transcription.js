@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import './App.css';
 import queryString from 'qs';
 import { Media, Player, controls, utils } from 'react-media-player'
-import './formatTime'
-import Segment from './segment'
-import './style/transcription.scss'
+import './formatTime';
+import Segment from './segment';
+import './style/transcription.scss';
 const {
   PlayPause,
   CurrentTime,
@@ -171,20 +171,23 @@ class Transcription extends Component {
             <SeekBar />
             <div>
               <button
+                className="play-button"
                 ref={(player) => {this.player = player; }}
                 onClick={e=> {this.buttonOnClick(e, mediaProps)}}
                 >
-                Play
+                {mediaProps.isPlaying ? "Pause" : "Play" }
               </button>
               <button
+                className="forward-button"
                 onClick={e => {this.handleForward(e, mediaProps)}}
                 >
                 Forward
               </button>
               <button
+                className="backward-botton"
                 onClick={e => {this.handleBackward(e, mediaProps)}}
                 >
-                backward
+                Backward
               </button>
             </div>
           </div>

@@ -133,35 +133,40 @@ class Segment extends Component {
           onMouseOver={this.handleHover}
           onMouseOut={this.handleHoverOut}
           >
-          <div>
-            <div>
+          <div className='chunk-time'>
+            <div className="time-control">
               <p>Start Time: {this.state.start}</p>
               <button
+                className="inc-button"
                 onClick={e => {this.handleIncrement(e, "start")}}>
-                Add</button>
+                {">"}</button>
               <button
+                className="dec-button"
                 onClick={e => {this.handleDecrement(e, "start")}}
-                >Minus</button>
+                >{"<"}</button>
             </div>
-            <div>
+            <div className="time-control">
               <p>End Time: {this.state.end}</p>
               <button
+                className="inc-button"
                 onClick={e => {this.handleIncrement(e, "end")}}
-                >Add</button>
+                >{">"}</button>
               <button
-                onClick={e => {this.handleIncrement(e, "end")}}
-                >Minus</button>
+                className="dec-button"
+                onClick={e => {this.handleDecrement(e, "end")}}
+                >{"<"}</button>
             </div>
           </div>
           { !this.state.isWritable &&
             <div
               onClick={() => this.handleClicks()}
               >
-              <TextHighlight
-                className="highlight"
-                highlight={this.state.highlight}
-                text={this.state.text}
-                />
+              <div className="highlight">
+                <TextHighlight
+                  highlight={this.state.highlight}
+                  text={this.state.text}
+                  />
+              </div>
             </div>
           }
 
@@ -175,7 +180,7 @@ class Segment extends Component {
           }
       </div>
       {
-        this.state.isWritable && <button onClick={this.handleEdit}>Edit</button>
+        this.state.isWritable && <button className="edit-button" onClick={this.handleEdit}>Edit</button>
       }
       </div>
     )
