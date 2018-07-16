@@ -101,12 +101,11 @@ class Segment extends Component {
   }
 
   handleIncrement = (event, identifier) => {
-    console.log(identifier);
-    if (identifier == "start" && this.state.start + 1 < this.state.media.duration) {
+    if (identifier == "start" && this.state.start + 1 <= this.state.media.duration) {
       this.setState({
         start: this.state.start + 1
       })
-    } else if (identifier == "end" && this.state.end + 1 < this.state.media.duration) {
+    } else if (identifier == "end" && this.state.end + 1 <= this.state.media.duration) {
       this.setState({
         end: this.state.end + 1
       })
@@ -114,11 +113,11 @@ class Segment extends Component {
   }
 
   handleDecrement = (event, identifier) => {
-    if (identifier == "start" && this.state.start - 1 > 0) {
+    if (identifier == "start" && this.state.start - 1 >= 0) {
       this.setState({
         start: this.state.start - 1
       })
-    } else if (identifier == "end" && this.state.end - 1 > 0) {
+    } else if (identifier == "end" && this.state.end - 1 >= 0) {
       this.setState({
         end: this.state.end - 1
       })
