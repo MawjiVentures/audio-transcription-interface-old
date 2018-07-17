@@ -55,7 +55,7 @@ class Transcription extends Component {
           id: this.state.count,
           text: this.state.value,
           start: Math.floor(this.state.start),
-          end: Math.floor(this.state.current_time)
+          end: Math.ceil(this.state.current_time)
         }],
         start: Math.floor(this.state.current_time),
         value: '',
@@ -86,9 +86,13 @@ class Transcription extends Component {
         value: ''
       })
       this.player.focus();
-    } else if (event.key == "Enter" && media.isPlaying) {
+    } else if (event.key == "Enter" &&
+               media.isPlaying &&
+               event.ctrlKey) {
       media.pause();
-    } else if (event.key == "Enter" && !media.isPlaying) {
+    } else if (event.key == "Enter" &&
+               !media.isPlaying &&
+               event.ctrlKey) {
       media.play();
     }
   }
