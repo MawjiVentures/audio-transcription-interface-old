@@ -47,8 +47,8 @@ class Segment extends Component {
 
   handleSingleClick = (e) => {
     if (this.state.clicked == false) {
-      this.props.media.seekTo(this.state.chunk.start)
-      this.props.audioHandler(this.state.chunk.end)
+      this.props.media.seekTo(this.state.start)
+      this.props.audioHandler(this.state.end)
       this.props.media.play();
       this.setState({
         clicked: true
