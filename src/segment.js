@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import TextHighlight from 'react-text-highlight'
 import { Media, Player, controls, utils } from 'react-media-player'
 import './style/segment.scss'
-const {
-  PlayPause,
-  CurrentTime,
-  Progress,
-  Duration,
-  Volume
-} = controls
 
 class Segment extends Component {
   constructor(props) {

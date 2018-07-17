@@ -8,11 +8,8 @@ import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
 const {
-  PlayPause,
   CurrentTime,
   Progress,
-  Duration,
-  Volume,
   SeekBar
 } = controls
 
@@ -94,6 +91,10 @@ class Transcription extends Component {
                !media.isPlaying &&
                event.ctrlKey) {
       media.play();
+    } else if (event.key == "=" && event.ctrlKey) {
+      media.seekTo(media.currentTime + 5);
+    } else if (event.key == "0" && event.ctrlKey) {
+      media.seekTo(media.currentTime - 5);
     }
   }
 
