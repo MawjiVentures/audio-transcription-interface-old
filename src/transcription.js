@@ -127,6 +127,24 @@ class Transcription extends Component {
   }
 
   componentDidMount() {
+    const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true })
+
+    if (parsedQuery.chunks) {
+      let preload_chunks = JSON.parse(parsedQuery.chunks);
+
+      preload_chunks.forEach(chunk => {
+        this.setState({
+          data: [...this.state.data, {
+            id: this.state.count,
+            text: "",
+            start: chunk.start,
+            end: chunk.end
+          }],
+          count: this.state.count + 1
+        })
+      })
+    }
+
     this.player.focus();
   }
 
