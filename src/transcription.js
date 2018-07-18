@@ -78,6 +78,7 @@ class Transcription extends Component {
         count: this.state.count + 1
       })
     } else if (event.key == "Enter" &&
+               this.state.disable == true &&
                event.shiftKey) {
       this.setState({
         value: ''
@@ -223,14 +224,18 @@ class Transcription extends Component {
           </div>
           <div className="container">
             <div className="form">
+              {
+                !this.state.disable &&
+                  <textarea ref={(textbox) => {this.textbox = textbox; }}
+                    onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    className="transcription-input" />
+              }
+
               <form action={submitTo} method="POST" target="_top">
                 {hidden_fields}
-                <textarea ref={(textbox) => {this.textbox = textbox; }}
-                          onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
-                          value={this.state.value}
-                          onChange={this.handleChange}
-                          className="transcription-input" />
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" value={this.state.data}/>
               </form>
             </div>
             <div className="chunks">
