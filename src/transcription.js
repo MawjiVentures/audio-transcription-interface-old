@@ -222,6 +222,21 @@ class Transcription extends Component {
                 >
                 Backward
               </button>
+
+              {
+                this.state.disable &&
+                <form action={submitTo} method="POST" target="_top">
+                  <input
+                    type="hidden"
+                    value={this.state.data}
+                    />
+                  <input
+                    type="hidden"
+                    value={hidden_fields}
+                    />
+                  <input type="submit" value="Submit"/>
+                </form>
+              }
             </div>
           </div>
           <div className="container">
@@ -234,18 +249,6 @@ class Transcription extends Component {
                     onChange={this.handleChange}
                     className="transcription-input" />
               }
-
-              <form action={submitTo} method="POST" target="_top">
-                <input
-                  type="hidden"
-                  value={this.state.data}
-                  />
-                <input
-                  type="hidden"
-                  value={hidden_fields}
-                  />
-                <input type="submit" value="Submit"/>
-              </form>
             </div>
             <div className="chunks">
               {
