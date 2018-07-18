@@ -185,7 +185,9 @@ class Transcription extends Component {
           <h1 className="App-title">Audio Transcription</h1>
         </header>
         <p className="App-intro">
-      Press the play button to listen to the audio clip.
+          Press the play button to listen to the audio clip.
+          Press control and enter to play & pause audio.
+          Press shift and enter to create a chunk.
         </p>
       <Media>
         { mediaProps =>
@@ -234,8 +236,15 @@ class Transcription extends Component {
               }
 
               <form action={submitTo} method="POST" target="_top">
-                {hidden_fields}
-                <input type="submit" value="Submit" value={this.state.data}/>
+                <input
+                  type="hidden"
+                  value={this.state.data}
+                  />
+                <input
+                  type="hidden"
+                  value={hidden_fields}
+                  />
+                <input type="submit" value="Submit"/>
               </form>
             </div>
             <div className="chunks">
