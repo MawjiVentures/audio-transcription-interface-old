@@ -202,7 +202,8 @@ class Transcription extends Component {
             <Progress />
             <CurrentTime />
             <SeekBar />
-            <div>
+            {
+              !this.state.disable && <div>
               <button
                 className="play-button"
                 ref={(player) => {this.player = player; }}
@@ -223,8 +224,6 @@ class Transcription extends Component {
                 Backward
               </button>
 
-              {
-                this.state.disable &&
                 <form action={submitTo} method="POST" target="_top">
                   <input
                     type="hidden"
@@ -236,8 +235,9 @@ class Transcription extends Component {
                     />
                   <input type="submit" value="Submit"/>
                 </form>
-              }
+
             </div>
+          }
           </div>
           <div className="container">
             <div className="form">

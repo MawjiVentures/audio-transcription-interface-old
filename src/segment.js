@@ -119,7 +119,7 @@ class Segment extends Component {
 
   render() {
     var audioHandler = this.props.audioHandler;
-    
+
     return (
       <div>
         <div className="segment"
