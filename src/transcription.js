@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import logog from './logo.svg';
-import ReactDOM from 'react-dom';
 import './App.css';
 import queryString from 'qs';
-import { Media, Player, controls, utils } from 'react-media-player'
+import { Media, Player, controls } from 'react-media-player'
 import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
@@ -42,11 +40,11 @@ class Transcription extends Component {
   }
 
   handlePlayPause = (event, media) => {
-    if (event.key == "Enter" &&
+    if (event.key === "Enter" &&
         event.shiftKey &&
         this.state.value.length > 0 &&
-        this.state.attemped == false &&
-        this.state.disable == false) {
+        this.state.attemped === false &&
+        this.state.disable === false) {
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
@@ -62,10 +60,10 @@ class Transcription extends Component {
       if (media.isPlaying) {
         media.pause();
       }
-    } else if (event.key == 'Enter' &&
+    } else if (event.key === 'Enter' &&
                event.shiftKey &&
-               this.state.attemped == true &&
-               this.state.disable == false){
+               this.state.attemped === true &&
+               this.state.disable === false){
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
@@ -77,24 +75,24 @@ class Transcription extends Component {
         value: '',
         count: this.state.count + 1
       })
-    } else if (event.key == "Enter" &&
-               this.state.disable == true &&
+    } else if (event.key === "Enter" &&
+               this.state.disable === true &&
                event.shiftKey) {
       this.setState({
         value: ''
       })
       this.player.focus();
-    } else if (event.key == "Enter" &&
+    } else if (event.key === "Enter" &&
                media.isPlaying &&
                event.ctrlKey) {
       media.pause();
-    } else if (event.key == "Enter" &&
+    } else if (event.key === "Enter" &&
                !media.isPlaying &&
                event.ctrlKey) {
       media.play();
-    } else if (event.key == "=" && event.ctrlKey) {
+    } else if (event.key === "=" && event.ctrlKey) {
       media.seekTo(media.currentTime + 5);
-    } else if (event.key == "0" && event.ctrlKey) {
+    } else if (event.key === "0" && event.ctrlKey) {
       media.seekTo(media.currentTime - 5);
     }
   }
@@ -105,19 +103,19 @@ class Transcription extends Component {
 
   onFinishHandler = (event, mediaProps) => {
     this.setState({current_time: event.currentTime});
-    if (Math.round(event.currentTime) == Math.round(mediaProps.duration)) {
+    if (Math.round(event.currentTime) === Math.round(mediaProps.duration)) {
       this.setState({
         attemped: true
       })
       this.textbox.focus();
-    } else if (this.state.tempEnd != 0 && Math.round(event.currentTime) == this.state.tempEnd) {
+    } else if (this.state.tempEnd !== 0 && Math.round(event.currentTime) === this.state.tempEnd) {
       mediaProps.pause()
     }
   }
 
   textChangeHandler = (event, id, text) => {
     var new_data = this.state.data.map((chunk) => {
-      if (chunk.id == id) {
+      if (chunk.id === id) {
         chunk.text = text;
       }
       return chunk;

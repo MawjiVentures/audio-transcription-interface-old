@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TextHighlight from 'react-text-highlight'
-import { Media, Player, controls, utils } from 'react-media-player'
 import './style/segment.scss'
 
 class Segment extends Component {
@@ -39,7 +38,7 @@ class Segment extends Component {
   }
 
   handleSingleClick = (e) => {
-    if (this.state.clicked == false) {
+    if (this.state.clicked === false) {
       this.props.media.seekTo(this.state.start)
       this.props.audioHandler(this.state.end)
       this.props.media.play();
@@ -94,11 +93,11 @@ class Segment extends Component {
   }
 
   handleIncrement = (event, identifier) => {
-    if (identifier == "start" && this.state.start + 1 <= this.state.media.duration) {
+    if (identifier === "start" && this.state.start + 1 <= this.state.media.duration) {
       this.setState({
         start: this.state.start + 1
       })
-    } else if (identifier == "end" && this.state.end + 1 <= this.state.media.duration) {
+    } else if (identifier === "end" && this.state.end + 1 <= this.state.media.duration) {
       this.setState({
         end: this.state.end + 1
       })
@@ -106,11 +105,11 @@ class Segment extends Component {
   }
 
   handleDecrement = (event, identifier) => {
-    if (identifier == "start" && this.state.start - 1 >= 0) {
+    if (identifier === "start" && this.state.start - 1 >= 0) {
       this.setState({
         start: this.state.start - 1
       })
-    } else if (identifier == "end" && this.state.end - 1 >= 0) {
+    } else if (identifier === "end" && this.state.end - 1 >= 0) {
       this.setState({
         end: this.state.end - 1
       })
@@ -118,8 +117,6 @@ class Segment extends Component {
   }
 
   render() {
-    var audioHandler = this.props.audioHandler;
-
     return (
       <div>
         <div className="segment"
