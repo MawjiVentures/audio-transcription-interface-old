@@ -141,7 +141,8 @@ class Transcription extends Component {
             start: chunk.start,
             end: chunk.end
           }],
-          count: this.state.count + 1
+          count: this.state.count + 1,
+          disable: true
         })
       })
     }
