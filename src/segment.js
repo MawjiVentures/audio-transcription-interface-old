@@ -120,11 +120,11 @@ class Segment extends Component {
 
   render() {
     return (
-      <div>
-        <div className="segment"
+      <section>
+        <section className="segment"
           onMouseOver={this.handleHover}
-          onMouseOut={this.handleHoverOut}
-          >
+          onMouseOut={this.handleHoverOut}>
+
           <AudioControl handleIncrement={this.handleIncrement}
                         handleDecrement={this.handleDecrement}
                         start={this.state.start}
@@ -140,13 +140,11 @@ class Segment extends Component {
                       type='text'
                       value={this.state.text}
                       onChange={this.onValueChange}></textarea> }
-      </div>
-      {
-        this.state.isWritable &&
+      </section>
+      { this.state.isWritable &&
         <button className="edit-button"
-                onClick={this.handleEdit}>Edit</button>
-      }
-      </div>
+                onClick={this.handleEdit}>Edit</button> }
+      </section>
     )
   }
 }

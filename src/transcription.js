@@ -5,9 +5,9 @@ import { Media, Player, controls } from 'react-media-player'
 import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
+import SubmitForm from './components/submit_form';
 const {
   CurrentTime,
-  Progress,
   SeekBar
 } = controls
 
@@ -179,30 +179,30 @@ class Transcription extends Component {
     }
 
     return (
-      <div className="transcription">
+      <section className="transcription">
         <header className="App-header">
           <h1 className="App-title">Audio Transcription</h1>
         </header>
-        <p className="App-intro">
-          Press the play button to listen to the audio clip.
-          Press control and enter to play & pause audio.
-          Press shift and enter to create a chunk.
-        </p>
+        <ul className="App-intro">
+          <li>Press the play button to listen to the audio clip.</li>
+          <li>Press control and enter to play & pause audio.</li>
+          <li>Press shift and enter to create a chunk.</li>
+        </ul>
       <Media>
         { mediaProps =>
-          <div className="media">
+          <section className="media">
             <Player src={audioUrl}
                     className="media-player"
                     onPause={e => {this.onPauseHandler(e, mediaProps)}}
                     onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}}
                     />
 
-          <div className="media-controls">
-            <Progress />
+          <section className="media-controls">
             <CurrentTime />
             <SeekBar />
             {
-              !this.state.disable && <div>
+              !this.state.disable &&
+            <section>
               <button
                 className="play-button"
                 ref={(player) => {this.player = player; }}
@@ -222,24 +222,14 @@ class Transcription extends Component {
                 >
                 Backward
               </button>
-
-                <form action={submitTo} method="POST" target="_top">
-                  <input
-                    type="hidden"
-                    value={this.state.data}
-                    />
-                  <input
-                    type="hidden"
-                    value={hidden_fields}
-                    />
-                  <input type="submit" value="Submit"/>
-                </form>
-
-            </div>
+              <SubmitForm submitTo={submitTo}
+                          data={this.state.data}
+                          hiddenFields={hidden_fields} />
+            </section>
           }
-          </div>
-          <div className="container">
-            <div className="form">
+        </section>
+          <section className="container">
+            <section className="form">
               {
                 !this.state.disable &&
                   <textarea ref={(textbox) => {this.textbox = textbox; }}
@@ -248,8 +238,8 @@ class Transcription extends Component {
                     onChange={this.handleChange}
                     className="transcription-input" />
               }
-            </div>
-            <div className="chunks">
+            </section>
+            <section className="chunks">
               {
                 this.state.data.map((chunk, i) => {
                   return <Segment id={chunk.id}
@@ -261,12 +251,12 @@ class Transcription extends Component {
                     />
                 })
               }
-            </div>
-          </div>
-          </div>
+            </section>
+          </section>
+        </section>
         }
       </Media>
-      </div>
+    </section>
     )
   }
 }
