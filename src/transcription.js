@@ -109,7 +109,11 @@ class Transcription extends Component {
       })
       this.textbox.focus();
     } else if (this.state.tempEnd !== 0 && Math.round(event.currentTime) === this.state.tempEnd) {
-      mediaProps.pause()
+      this.setState({
+        tempEnd: 0
+      });
+      mediaProps.seekTo(event.currentTime);
+      mediaProps.pause();
     }
   }
 
