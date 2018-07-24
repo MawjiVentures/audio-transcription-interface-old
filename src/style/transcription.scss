@@ -1,4 +1,4 @@
-$break-small: 560px;
+$break-small: 500px;
 $break-large: 1200px;
 
 @mixin button-bg($bg) {
@@ -32,23 +32,31 @@ $break-large: 1200px;
 }
 
 .transcription {
+  width: 900px;
   display: flex;
   flex-flow: column;
-  background-color: #f3fafd;
+  background-color: #f2f2f2;
   margin-left: auto;
   margin-right: auto;
+  border: 2px solid #f3fafd;
+
+  @media screen and (max-width: $break-large) {
+    width: 600px;
+  }
+
   @media screen and (max-width: $break-small) {
-    width: 300px;
+    width: 350px;
     h1 {
-      font-size: 90%;
+      font-size: 95%;
     }
     p {
       font-size: 80%;
     }
   }
 
-  @media screen and (max-width: $break-large) {
-    width: 500px;
+  .media-info {
+    text-align: center;
+    padding-bottom: 20px;
   }
 
   .media {
@@ -62,6 +70,7 @@ $break-large: 1200px;
       padding: 5px 10px;
       border-radius: 3px;
       font-size: 0.8em;
+      padding-left: 5px;
     }
 
     .play-button {

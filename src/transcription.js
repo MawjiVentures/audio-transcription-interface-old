@@ -188,9 +188,9 @@ class Transcription extends Component {
           <h1 className="App-title">Audio Transcription</h1>
         </header>
         <ul className="App-intro">
-          <li>Press the play button to listen to the audio clip.</li>
-          <li>Press control and enter to play & pause audio.</li>
-          <li>Press shift and enter to create a chunk.</li>
+          <li><p>Press the play button to listen to the audio clip.</p></li>
+          <li><p>Press control and enter to play & pause audio.</p></li>
+          <li><p>Press shift and enter to create a chunk.</p></li>
         </ul>
       <Media>
         { mediaProps =>
@@ -202,8 +202,10 @@ class Transcription extends Component {
                     />
 
           <section className="media-controls">
-            <CurrentTime />
-            <SeekBar />
+            <div className="media-info">
+              <CurrentTime />
+              <SeekBar />
+            </div>
             {
               !this.state.disable &&
             <section>
@@ -226,9 +228,6 @@ class Transcription extends Component {
                 >
                 Backward
               </button>
-              <SubmitForm submitTo={submitTo}
-                          data={this.state.data}
-                          hiddenFields={hidden_fields} />
             </section>
           }
         </section>
@@ -257,6 +256,9 @@ class Transcription extends Component {
               }
             </section>
           </section>
+          <SubmitForm submitTo={submitTo}
+                      data={this.state.data}
+                      hiddenFields={hidden_fields} />
         </section>
         }
       </Media>
