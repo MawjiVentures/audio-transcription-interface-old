@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import TextHighlight from 'react-text-highlight'
-import './style/segment.scss'
+import TextHighlight from 'react-text-highlight';
+import './style/segment.scss';
+import AudioControl from './components/audio_control'
 
 class Segment extends Component {
   constructor(props) {
@@ -123,30 +124,11 @@ class Segment extends Component {
           onMouseOver={this.handleHover}
           onMouseOut={this.handleHoverOut}
           >
-          <div className='chunk-time'>
-            <div className="time-control">
-              <p>Start Time: {this.state.start}</p>
-              <button
-                className="inc-button"
-                onClick={e => {this.handleIncrement(e, "start")}}>
-                {">"}</button>
-              <button
-                className="dec-button"
-                onClick={e => {this.handleDecrement(e, "start")}}
-                >{"<"}</button>
-            </div>
-            <div className="time-control">
-              <p>End Time: {this.state.end}</p>
-              <button
-                className="inc-button"
-                onClick={e => {this.handleIncrement(e, "end")}}
-                >{">"}</button>
-              <button
-                className="dec-button"
-                onClick={e => {this.handleDecrement(e, "end")}}
-                >{"<"}</button>
-            </div>
-          </div>
+          <AudioControl handleIncrement={this.handleIncrement}
+                        handleDecrement={this.handleDecrement}
+                        start={this.state.start}
+                        end={this.state.end} />
+
           { !this.state.isWritable &&
             <div
               onClick={() => this.handleClicks()}
@@ -170,7 +152,8 @@ class Segment extends Component {
           }
       </div>
       {
-        this.state.isWritable && <button className="edit-button" onClick={this.handleEdit}>Edit</button>
+        this.state.isWritable &&
+        <button className="edit-button" onClick={this.handleEdit}>Edit</button>
       }
       </div>
     )
