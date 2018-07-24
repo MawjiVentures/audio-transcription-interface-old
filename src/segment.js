@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextHighlight from 'react-text-highlight';
 import './style/segment.scss';
 import AudioControl from './components/audio_control'
+import Highlight from './components/highlight'
 
 class Segment extends Component {
   constructor(props) {
@@ -130,30 +131,20 @@ class Segment extends Component {
                         end={this.state.end} />
 
           { !this.state.isWritable &&
-            <div
-              onClick={() => this.handleClicks()}
-              >
-              <div className="highlight">
-                <TextHighlight
-                  highlight={this.state.highlight}
-                  text={this.state.text}
-                  />
-              </div>
-            </div>
-          }
-
+            <Highlight highlight={this.state.highlight}
+                       text={this.state.text}
+                       handleClick={this.handleClicks}/> }
           { this.state.isWritable &&
             <textarea className="text-box"
-              name="text"
-              type='text'
-              value={this.state.text}
-              onChange={this.onValueChange}
-              ></textarea>
-          }
+                      name="text"
+                      type='text'
+                      value={this.state.text}
+                      onChange={this.onValueChange}></textarea> }
       </div>
       {
         this.state.isWritable &&
-        <button className="edit-button" onClick={this.handleEdit}>Edit</button>
+        <button className="edit-button"
+                onClick={this.handleEdit}>Edit</button>
       }
       </div>
     )
