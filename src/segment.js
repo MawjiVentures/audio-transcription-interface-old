@@ -26,19 +26,7 @@ class Segment extends Component {
   handleSingleClick = () => {
     this.state.callback(this.state.chunk);
   }
-
-  handleHover = (e) => {
-    this.setState({
-      highlight: this.state.text
-    });
-  }
-
-  handleHoverOut = (e) => {
-    this.setState({
-      highlight: ""
-    });
-  }
-
+  
   handleSingleClick = (e) => {
     if (this.state.clicked === false) {
       this.props.media.seekTo(this.state.start)
@@ -121,9 +109,7 @@ class Segment extends Component {
   render() {
     return (
       <section>
-        <section className="segment"
-          onMouseOver={this.handleHover}
-          onMouseOut={this.handleHoverOut}>
+        <section className="segment">
 
           <AudioControl handleIncrement={this.handleIncrement}
                         handleDecrement={this.handleDecrement}
@@ -131,9 +117,12 @@ class Segment extends Component {
                         end={this.state.end} />
 
           { !this.state.isWritable &&
-            <Highlight highlight={this.state.highlight}
-                       text={this.state.text}
-                       handleClick={this.handleClicks}/> }
+            <section>
+              <Highlight
+                highlight={this.state.highlight}
+                text={this.state.text}
+                handleClick={this.handleClicks}/>
+            </section> }
           { this.state.isWritable &&
             <textarea className="text-box"
                       name="text"
