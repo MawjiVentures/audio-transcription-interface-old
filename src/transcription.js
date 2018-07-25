@@ -187,7 +187,9 @@ class Transcription extends Component {
         <header className="App-header">
           <h1 className="App-title">Audio Transcription</h1>
         </header>
+        <hr />
         <ul className="App-intro">
+          <h3>Instructions: </h3>
           <li><p>Press the play button to listen to the audio clip.</p></li>
           <li><p>Press control and enter to play & pause audio.</p></li>
           <li><p>Press shift and enter to create a chunk.</p></li>

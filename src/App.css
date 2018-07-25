@@ -1,12 +1,21 @@
 .App-header {
-  background-color: #45b3e0;
   height: auto;
   padding: 20px;
-  color: white;
+  color: #663399;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 2px solid #663399;
+  margin: 1em 0;
+  padding: 0;
 }
 
 .App-intro {
   margin-left: 25px;
+  color: #663399;
 }
 
 .transcription-input {
