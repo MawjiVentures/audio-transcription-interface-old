@@ -1,5 +1,4 @@
-$break-small: 500px;
-$break-large: 1200px;
+@import "./_constants";
 
 @mixin button-bg($bg) {
   background: $bg;
@@ -38,7 +37,7 @@ $break-large: 1200px;
   background-color: #f2f2f2;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid #f3fafd;
+  border: 3px solid #f3fafd;
 
   @media screen and (max-width: $break-large) {
     width: 600px;
