@@ -1,9 +1,8 @@
 @import "./_constants";
 
 .segment {
-  background: #87ceeb;
-  border-radius: 10px;
-  border: 1px solid #45b3e0;
+  border-radius: 5px;
+  border: 1px solid $primary-color;
   padding: 5px;
   margin-top: 10px;
   min-height: 60px;
@@ -13,7 +12,7 @@
 
   .highlight {
     margin-top: 10px;
-    color: black;
+    color: $primary-color;
     padding: 5px 5px 5px 5px;
   }
 
@@ -29,6 +28,7 @@
         display: inline-block;
         font-size: 10px;
         margin-left: 10px;
+        color: $primary-color;
       }
     }
 
@@ -43,10 +43,10 @@
       font-size: 0.8em;
 
       .inc-button {
-        @include button-bg(#3498db);
+        @include button-bg(#f2f2f2);
       }
       .dec-button {
-        @include button-bg(#e74c3c);
+        @include button-bg(#f2f2f2);
       }
     }
 
