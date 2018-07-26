@@ -14,6 +14,12 @@
     margin-top: 10px;
     color: $primary-color;
     padding: 5px 5px 5px 5px;
+
+    .highlight-text {
+      &:hover {
+        background-color: yellow;
+      }
+    }
   }
 
   span {
