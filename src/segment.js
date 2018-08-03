@@ -108,8 +108,7 @@ class Segment extends Component {
 
   render() {
     return (
-      <section>
-        <section className="segment">
+      <section className="segment">
           { !this.state.isWritable &&
             <section>
               <Highlight
@@ -130,10 +129,9 @@ class Segment extends Component {
                 onChange={this.onValueChange}>
               </textarea>
             </div> }
-      </section>
-      { this.state.isWritable &&
-        <button className="edit-button"
-                onClick={this.handleEdit}>Edit</button> }
+          { this.state.isWritable &&
+            <button className="edit-button"
+                    onClick={this.handleEdit}>Edit</button> }
       </section>
     )
   }

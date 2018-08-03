@@ -1,14 +1,22 @@
 @import "./_constants";
 
 .segment {
+  padding: 0;
+  margin: 5px 0 0 0;
   font-weight: bold;
   font-size: 13px;
+  display: inline-block;
 
   .highlight {
     color: $primary-color;
 
     .highlight-text {
       padding: 0;
+      margin: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
+
       &:hover {
         background-color: yellow;
       }

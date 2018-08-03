@@ -5,10 +5,10 @@ class Highlight extends Component {
   render() {
     return (
       <div className="highlight">
-        <p className="highlight-text"
-           onClick={this.props.handleClick}>
-          {this.props.text}
-        </p>
+          <p className="highlight-text"
+            onClick={this.props.handleClick}>
+            {this.props.text}
+          </p>
       </div>
     )
   }
