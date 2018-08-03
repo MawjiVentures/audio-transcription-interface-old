@@ -26,7 +26,7 @@ class Segment extends Component {
   handleSingleClick = () => {
     this.state.callback(this.state.chunk);
   }
-  
+
   handleSingleClick = (e) => {
     if (this.state.clicked === false) {
       this.props.media.seekTo(this.state.start)
@@ -110,12 +110,6 @@ class Segment extends Component {
     return (
       <section>
         <section className="segment">
-
-          <AudioControl handleIncrement={this.handleIncrement}
-                        handleDecrement={this.handleDecrement}
-                        start={this.state.start}
-                        end={this.state.end} />
-
           { !this.state.isWritable &&
             <section>
               <Highlight
@@ -124,11 +118,18 @@ class Segment extends Component {
                 handleClick={this.handleClicks}/>
             </section> }
           { this.state.isWritable &&
-            <textarea className="text-box"
-                      name="text"
-                      type='text'
-                      value={this.state.text}
-                      onChange={this.onValueChange}></textarea> }
+            <div>
+              <AudioControl handleIncrement={this.handleIncrement}
+                            handleDecrement={this.handleDecrement}
+                            start={this.state.start}
+                            end={this.state.end} />
+              <textarea className="text-box"
+                name="text"
+                type='text'
+                value={this.state.text}
+                onChange={this.onValueChange}>
+              </textarea>
+            </div> }
       </section>
       { this.state.isWritable &&
         <button className="edit-button"

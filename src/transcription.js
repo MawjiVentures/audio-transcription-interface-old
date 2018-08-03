@@ -176,12 +176,6 @@ class Transcription extends Component {
     const submitTo = parsedQuery.submitTo;
     const assignmentId = parsedQuery.assignmentId;
 
-    let hidden_fields;
-
-    if (assignmentId !== undefined) {
-      hidden_fields = <input type="hidden" name="assignmentId" value={assignmentId}/>
-    }
-
     return (
       <section className="transcription">
         <header className="App-header">
@@ -234,33 +228,28 @@ class Transcription extends Component {
           }
         </section>
           <section className="container">
-            <section className="form">
-              {
-                !this.state.disable &&
-                  <textarea ref={(textbox) => {this.textbox = textbox; }}
-                    onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    className="transcription-input" />
-              }
-            </section>
             <section className="chunks">
-              {
-                this.state.data.map((chunk, i) => {
+              { this.state.data.map((chunk, i) => {
                   return <Segment id={chunk.id}
-                    chunk={chunk}
-                    onClick={this.handleClick}
-                    media={mediaProps}
-                    audioHandler={this.audioHandler}
-                    textChangeHandler={this.textChangeHandler}
-                    />
-                })
-              }
+                            chunk={chunk}
+                            onClick={this.handleClick}
+                            media={mediaProps}
+                            audioHandler={this.audioHandler}
+                            textChangeHandler={this.textChangeHandler}
+                          /> }) }
             </section>
+            { !this.state.disable &&
+              <section className="form">
+                <textarea ref={(textbox) => {this.textbox = textbox; }}
+                  onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  className="transcription-input" />
+              </section> }
           </section>
           <SubmitForm submitTo={submitTo}
-                      data={this.state.data}
-                      hiddenFields={hidden_fields} />
+                      data={JSON.stringify(this.state.data)}
+                      assignmentId={assignmentId} />
         </section>
         }
       </Media>

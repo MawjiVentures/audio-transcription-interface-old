@@ -10,13 +10,15 @@ class SubmitForm extends Component {
       <form action={this.props.submitTo} method="POST" target="_top">
         <input
             type="hidden"
+            name="data"
             value={this.props.data}
             />
           <input
             type="hidden"
-            value={this.props.hiddenFields}
+            name="assignmentId"
+            value={this.props.assignmentId}
             />
-          <input type="submit" value="Submit"/>
+          <input onClick={this.handleOnclick} type="submit" value="Submit"/>
         </form>
     )
   }

@@ -51,7 +51,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "aws s3 sync --acl public-read --delete build/ s3://wetranscribe-client",
+    "invalidate-distribution": "aws cloudfront create-invalidation --distribution-id E1NYFUTQL15619 --paths /index.html /\\* "
   },
   "devDependencies": {
     "node-sass": "^4.9.2",
