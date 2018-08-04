@@ -2,7 +2,7 @@
 
 .segment {
   padding: 0;
-  margin: 5px 0 0 0;
+  margin: 5px 0 0 3px;
   font-weight: bold;
   font-size: 13px;
   display: inline-block;
@@ -20,6 +20,10 @@
       &:hover {
         background-color: yellow;
       }
+    }
+    sup {
+      padding: 0 3px 0 3px;
+      color: #6C7A89;
     }
   }
 

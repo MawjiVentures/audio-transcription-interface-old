@@ -7,7 +7,9 @@ class Highlight extends Component {
       <div className="highlight">
           <p className="highlight-text"
             onClick={this.props.handleClick}>
+            <sup>{this.props.start}</sup>
             {this.props.text}
+            <sup>{this.props.end}</sup>
           </p>
       </div>
     )

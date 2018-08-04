@@ -114,7 +114,9 @@ class Segment extends Component {
               <Highlight
                 highlight={this.state.highlight}
                 text={this.state.text}
-                handleClick={this.handleClicks}/>
+                handleClick={this.handleClicks}
+                start={this.state.start}
+                end={this.state.end} />
             </section> }
           { this.state.isWritable &&
             <div>

@@ -19,9 +19,9 @@ class ButtonGroup extends Component {
       })
     })
     return (
-      <fieldset className="button-group">
+      <div className="button-group">
         {children}
-      </fieldset>
+      </div>
     )
   }
 }
