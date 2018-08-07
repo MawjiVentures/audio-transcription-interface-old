@@ -4,6 +4,7 @@ import './style/segment.scss';
 import AudioControl from './components/audio_control'
 import Highlight from './components/highlight'
 
+
 class Segment extends Component {
   constructor(props) {
     super(props)
@@ -114,37 +115,37 @@ class Segment extends Component {
   }
 
   render() {
+    const highlightBox = (<section>
+                            <Highlight
+                               highlight={this.state.highlight}
+                               text={this.state.text}
+                               handleClick={this.handleClicks}
+                               start={this.state.start}
+                               end={this.state.end} />
+                          </section>)
+
+    const editBox = (<div>
+                       <AudioControl handleIncrement={this.handleIncrement}
+                                     handleDecrement={this.handleDecrement}
+                                     start={this.state.start}
+                                     end={this.state.end} />
+                       <textarea className="text-box"
+                                 name="text"
+                                 type='text'
+                                 value={this.state.text}
+                                 onChange={this.onValueChange}>
+                       </textarea>
+                       <div>
+                          <button className="edit-button"
+                                  onClick={this.handleEdit}>Edit</button>
+                          <button className="edit-button"
+                                  onClick={this.handleRemove}>Remove</button>
+                      </div>
+                    </div>)
     return (
       <section className="segment">
-          { !this.state.isWritable &&
-            <section>
-              <Highlight
-                highlight={this.state.highlight}
-                text={this.state.text}
-                handleClick={this.handleClicks}
-                start={this.state.start}
-                end={this.state.end} />
-            </section> }
-          { this.state.isWritable &&
-            <div>
-              <AudioControl handleIncrement={this.handleIncrement}
-                            handleDecrement={this.handleDecrement}
-                            start={this.state.start}
-                            end={this.state.end} />
-              <textarea className="text-box"
-                name="text"
-                type='text'
-                value={this.state.text}
-                onChange={this.onValueChange}>
-              </textarea>
-            </div> }
-          { this.state.isWritable &&
-            <div>
-              <button className="edit-button"
-                      onClick={this.handleEdit}>Edit</button>
-              <button className="edit-button"
-                      onClick={this.handleRemove}>Remove</button>
-            </div> }
+         { !this.state.isWritable && highlightBox }
+         { this.state.isWritable &&  editBox }
       </section>
     )
   }

@@ -186,84 +186,91 @@ class Transcription extends Component {
     const submitTo = parsedQuery.submitTo;
     const assignmentId = parsedQuery.assignmentId;
 
+    const audioPlayer = (mediaProps) => {
+      return (
+        <Player src={audioUrl}
+                className="media-player"
+                onPause={e => {this.onPauseHandler(e, mediaProps)}}
+                onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}}
+                />) }
+
+    const mediaInfo = (<div className="media-info">
+                          <CurrentTime />
+                          <SeekBar />
+                       </div>)
+
+    const buttonGroup = (mediaProps) => {
+      return (<section>
+                <button className="play-button"
+                        ref={(player) => {this.player = player; }}
+                        onClick={e=> {this.buttonOnClick(e, mediaProps)}}>
+                  {mediaProps.isPlaying ? "Pause" : "Play" }
+                </button>
+                <button className="forward-button"
+                        onClick={e => {this.handleForward(e, mediaProps)}}>
+                  Forward
+                </button>
+                <button className="backward-botton"
+                        onClick={e => {this.handleBackward(e, mediaProps)}}>
+                  Backward
+                </button>
+             </section>) }
+
+    const audioChunks = (mediaProps) => {
+      return this.state.data.map((chunk, i) => {
+          return <Segment id={chunk.id}
+                          chunk={chunk}
+                          onClick={this.handleClick}
+                          media={mediaProps}
+                          audioHandler={this.audioHandler}
+                          textChangeHandler={this.textChangeHandler}
+                          chunkRemoveHandle={this.chunkRemoveHandle} /> }) }
+
+    const inputBox = (mediaProps) => {
+      return (<section className="form">
+                 <textarea ref={(textbox) => {this.textbox = textbox; }}
+                           onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
+                           value={this.state.value}
+                           onChange={this.handleChange}
+                           className="transcription-input" />
+              </section>) }
+
+    const appIntro = (
+      <ul className="App-intro">
+        <h3>Instructions: </h3>
+        <li><p>Press the play button to listen to the audio clip.</p></li>
+        <li><p>Press control and enter to play & pause audio.</p></li>
+        <li><p>Press shift and enter to create a chunk.</p></li>
+      </ul>
+    )
+
     return (
       <section className="transcription">
         <header className="App-header">
           <h1 className="App-title">Audio Transcription</h1>
         </header>
         <hr />
-        <ul className="App-intro">
-          <h3>Instructions: </h3>
-          <li><p>Press the play button to listen to the audio clip.</p></li>
-          <li><p>Press control and enter to play & pause audio.</p></li>
-          <li><p>Press shift and enter to create a chunk.</p></li>
-        </ul>
+        { appIntro }
       <Media>
         { mediaProps =>
           <section className="media">
-            <Player src={audioUrl}
-                    className="media-player"
-                    onPause={e => {this.onPauseHandler(e, mediaProps)}}
-                    onTimeUpdate={e => {this.onFinishHandler(e, mediaProps)}}
-                    />
-
-          <section className="media-controls">
-            <div className="media-info">
-              <CurrentTime />
-              <SeekBar />
-            </div>
-            {
-              !this.state.disable &&
-            <section>
-              <button
-                className="play-button"
-                ref={(player) => {this.player = player; }}
-                onClick={e=> {this.buttonOnClick(e, mediaProps)}}
-                >
-                {mediaProps.isPlaying ? "Pause" : "Play" }
-              </button>
-              <button
-                className="forward-button"
-                onClick={e => {this.handleForward(e, mediaProps)}}
-                >
-                Forward
-              </button>
-              <button
-                className="backward-botton"
-                onClick={e => {this.handleBackward(e, mediaProps)}}
-                >
-                Backward
-              </button>
+            { audioPlayer(mediaProps) }
+            <section className="media-controls">
+              { mediaInfo }
+              { !this.state.disable && buttonGroup(mediaProps) }
             </section>
-          }
-        </section>
-          <section className="container">
-            <section className="chunks">
-              { this.state.data.map((chunk, i) => {
-                  return <Segment id={chunk.id}
-                            chunk={chunk}
-                            onClick={this.handleClick}
-                            media={mediaProps}
-                            audioHandler={this.audioHandler}
-                            textChangeHandler={this.textChangeHandler}
-                            chunkRemoveHandle={this.chunkRemoveHandle}
-                          /> }) }
+            <section className="container">
+              <section className="chunks">
+                { audioChunks(mediaProps) }
+              </section>
+              { !this.state.disable &&  inputBox(mediaProps) }
             </section>
-            { !this.state.disable &&
-              <section className="form">
-                <textarea ref={(textbox) => {this.textbox = textbox; }}
-                  onKeyPress={(e) => {this.handlePlayPause(e, mediaProps)}}
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                  className="transcription-input" />
-              </section> }
           </section>
-          <SubmitForm submitTo={submitTo}
-                      data={JSON.stringify(this.state.data)}
-                      assignmentId={assignmentId} />
-        </section>
         }
       </Media>
+      <SubmitForm submitTo={submitTo}
+                  data={JSON.stringify(this.state.data)}
+                  assignmentId={assignmentId} />
     </section>
     )
   }

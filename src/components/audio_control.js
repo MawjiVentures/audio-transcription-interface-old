@@ -13,9 +13,13 @@ class ButtonGroup extends Component {
   }
 
   render() {
-    const children = React.Children.map(this.props.children, (child) => {
+    const children = React.Children.map(this.props.children, (child, index) => {
       return React.cloneElement(child, {
-        isActive: child.props.value === this.state.value
+        isActive: index === this.state.value,
+        onSelect: (event) => {
+          this.setState({
+          value: index
+        })}
       })
     })
     return (
@@ -31,11 +35,32 @@ class RadioButton extends Component {
       const { isActive, onSelect } = this.props;
       const className = "radio-button " + (isActive ? "active" : "")
       return (
-        <button className={className} onClick={this.props.onClick}>
+        <button className={className} onSelect={this.props.onSelect}>
           {this.props.children}
         </button>
       )
     }
+}
+
+class TimeGroup extends Component {
+  render() {
+    const children = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {
+
+      })
+    })
+    return (
+      <div>
+        {children}
+      </div>
+    )
+  }
+}
+
+class Time extends Component {
+  render() {
+    return (<p>{this.props.children}</p>)
+  }
 }
 
 class AudioControl extends Component {
@@ -46,17 +71,15 @@ class AudioControl extends Component {
   render() {
     return (
       <div className='chunk-time'>
-        <p>Start Time: {this.props.start}</p>
-        <p>End Time: {this.props.end}</p>
+        <TimeGroup>
+          <Time>Start Time: {this.props.start}</Time>
+          <Time>End Time: {this.props.end}</Time>
+        </TimeGroup>
         <ButtonGroup>
-          <RadioButton value="1"
-                       onClick={e => {this.props.handleIncrement(e, "start")}}>{">"}</RadioButton>
-          <RadioButton value="2"
-                       onClick={e => {this.props.handleDecrement(e, "start")}}>{"<"}</RadioButton>
-          <RadioButton value="3"
-                       onClick={e => {this.props.handleIncrement(e, "end")}}>{">"}</RadioButton>
-          <RadioButton value="4"
-                       onClick={e => {this.props.handleDecrement(e, "end")}}>{"<"}</RadioButton>
+          <RadioButton onClick={e => {this.props.handleIncrement(e, "start")}}>{">"}</RadioButton>
+          <RadioButton onClick={e => {this.props.handleDecrement(e, "start")}}>{"<"}</RadioButton>
+          <RadioButton onClick={e => {this.props.handleIncrement(e, "end")}}>{">"}</RadioButton>
+          <RadioButton onClick={e => {this.props.handleDecrement(e, "end")}}>{"<"}</RadioButton>
         </ButtonGroup>
       </div>
     )
