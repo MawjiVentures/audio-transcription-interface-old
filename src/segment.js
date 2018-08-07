@@ -76,6 +76,13 @@ class Segment extends Component {
     this.props.textChangeHandler(e, this.state.chunk.id, this.state.text);
   }
 
+  handleRemove = (e) => {
+    this.props.chunkRemoveHandle(e, this.state.chunk.id)
+    this.setState({
+      isWritable: false
+    })
+  }
+
   handleChange = ({target: { value }}) => {
     this.setState({
       start: value
@@ -132,8 +139,12 @@ class Segment extends Component {
               </textarea>
             </div> }
           { this.state.isWritable &&
-            <button className="edit-button"
-                    onClick={this.handleEdit}>Edit</button> }
+            <div>
+              <button className="edit-button"
+                      onClick={this.handleEdit}>Edit</button>
+              <button className="edit-button"
+                      onClick={this.handleRemove}>Remove</button>
+            </div> }
       </section>
     )
   }

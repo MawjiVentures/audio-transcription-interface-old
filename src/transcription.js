@@ -129,6 +129,16 @@ class Transcription extends Component {
     })
   }
 
+  chunkRemoveHandle = (event, id) => {
+    let new_data = this.state.data.filter(item => {
+      return item.id !== id
+    })
+
+    this.setState({
+      data: new_data
+    })
+  }
+
   componentDidMount() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true })
 
@@ -236,6 +246,7 @@ class Transcription extends Component {
                             media={mediaProps}
                             audioHandler={this.audioHandler}
                             textChangeHandler={this.textChangeHandler}
+                            chunkRemoveHandle={this.chunkRemoveHandle}
                           /> }) }
             </section>
             { !this.state.disable &&
