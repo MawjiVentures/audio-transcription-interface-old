@@ -200,7 +200,7 @@ class Transcription extends Component {
                        </div>)
 
     const buttonGroup = (mediaProps) => {
-      return (<section>
+      return (<section className="main-button-group">
                 <button className="play-button"
                         ref={(player) => {this.player = player; }}
                         onClick={e=> {this.buttonOnClick(e, mediaProps)}}>
