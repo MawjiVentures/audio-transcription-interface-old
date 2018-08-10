@@ -63,17 +63,23 @@ class Time extends Component {
   }
 }
 
+class Subject extends Component {
+  render() {
+    return (<p>{this.props.children}</p>)
+  }
+}
+
 class AudioControl extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
       <div className='chunk-time'>
         <TimeGroup>
           <Time>Start Time: {this.props.start}</Time>
           <Time>End Time: {this.props.end}</Time>
+          <Subject>Subject: {this.props.subject}</Subject>
         </TimeGroup>
         <ButtonGroup>
           <RadioButton onClick={e => {this.props.handleIncrement(e, "start")}}>{">"}</RadioButton>

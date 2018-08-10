@@ -20,7 +20,8 @@ class Segment extends Component {
       media: props.media,
       clicked: false,
       start: props.chunk.start,
-      end: props.chunk.end
+      end: props.chunk.end,
+      subject: "Speaker"
     }
   }
 
@@ -114,6 +115,12 @@ class Segment extends Component {
     }
   }
 
+  handleSubjectChange = (text) => {
+    this.setState({
+      subject: text
+    })
+  }
+
   render() {
     const highlightBox = (<section>
                             <Highlight
@@ -121,14 +128,17 @@ class Segment extends Component {
                                text={this.state.text}
                                handleClick={this.handleClicks}
                                start={this.state.start}
-                               end={this.state.end} />
+                               end={this.state.end}
+                               subject={this.state.subject}
+                               handleSubjectChange={this.handleSubjectChange} />
                           </section>)
 
     const editBox = (<div>
                        <AudioControl handleIncrement={this.handleIncrement}
                                      handleDecrement={this.handleDecrement}
                                      start={this.state.start}
-                                     end={this.state.end} />
+                                     end={this.state.end}
+                                     subject={this.state.subject}/>
                        <textarea className="text-box"
                                  name="text"
                                  type='text'
