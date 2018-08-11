@@ -7,7 +7,7 @@ class SubmitForm extends Component {
 
   render() {
     return (
-      <form action={this.props.submitTo} method="POST" target="_top">
+      <form className="submit-form" action={this.props.submitTo} method="POST" target="_top">
         <input
             type="hidden"
             name="data"
@@ -18,7 +18,12 @@ class SubmitForm extends Component {
             name="assignmentId"
             value={this.props.assignmentId}
             />
-          <input onClick={this.handleOnclick} type="submit" value="Submit"/>
+          <button className="submit-button"
+                  onClick={this.handleOnclick}
+                  type="submit"
+                  value="Submit">
+            Submit
+          </button>
         </form>
     )
   }

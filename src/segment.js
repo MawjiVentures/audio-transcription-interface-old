@@ -21,7 +21,7 @@ class Segment extends Component {
       clicked: false,
       start: props.chunk.start,
       end: props.chunk.end,
-      subject: "Speaker"
+      subject: props.chunk.subject
     }
   }
 
@@ -116,9 +116,7 @@ class Segment extends Component {
   }
 
   handleSubjectChange = (text) => {
-    this.setState({
-      subject: text
-    })
+    this.props.subjectChangeHandle(null, this.state.chunk.id, text)
   }
 
   render() {

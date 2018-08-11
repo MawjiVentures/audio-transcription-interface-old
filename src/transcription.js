@@ -6,6 +6,8 @@ import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
 import SubmitForm from './components/submit_form';
+import moment from 'moment';
+
 const {
   CurrentTime,
   SeekBar
@@ -25,8 +27,13 @@ class Transcription extends Component {
       start: 0,
       end: 0,
       disable: false,
-      count: 0
+      count: 0,
+      subject: "Speaker"
     }
+  }
+
+  formatTime = (seconds) => {
+    return moment(moment.duration(seconds, 'seconds').asMilliseconds()).format("mm:ss")
   }
 
   audioHandler = (endTime) => {
@@ -49,11 +56,13 @@ class Transcription extends Component {
         data: [...this.state.data, {
           id: this.state.count,
           text: this.state.value,
-          start: Math.floor(this.state.start),
-          end: Math.ceil(this.state.current_time)
+          start: this.formatTime(Math.floor(this.state.start)),
+          end: this.formatTime(Math.ceil(this.state.current_time)),
+          subject: this.state.subject
         }],
         start: Math.floor(this.state.current_time),
         value: '',
+        subject: "Speaker",
         count: this.state.count + 1
       })
       this.player.focus();
@@ -62,17 +71,18 @@ class Transcription extends Component {
       }
     } else if (event.key === 'Enter' &&
                event.shiftKey &&
-               this.state.attemped === true &&
-               this.state.disable === false){
+               this.state.attemped === true){
       this.setState({
         data: [...this.state.data, {
           id: this.state.count,
           text: this.state.value,
-          start: Math.floor(this.state.start),
-          end: Math.floor(media.duration)
+          start: this.formatTime(Math.floor(this.state.start)),
+          end: this.formatTime(Math.floor(media.duration)),
+          subject: this.state.subject
         }],
         disable: true,
         value: '',
+        subject: "Speaker",
         count: this.state.count + 1
       })
     } else if (event.key === "Enter" &&
@@ -129,6 +139,19 @@ class Transcription extends Component {
     })
   }
 
+  subjectChangeHandle = (event, id, subject) => {
+    let new_data = this.state.data.map((chunk) => {
+      if (chunk.id === id) {
+        chunk.subject = subject;
+      }
+      return chunk;
+    });
+
+    this.setState({
+      data: new_data
+    })
+  }
+
   chunkRemoveHandle = (event, id) => {
     let new_data = this.state.data.filter(item => {
       return item.id !== id
@@ -180,6 +203,11 @@ class Transcription extends Component {
     mediaProps.seekTo(mediaProps.currentTime - 5);
   }
 
+  onSubmitClick = () => {
+    console.log("submit data")
+    console.log(this.state.data)
+  }
+
   render() {
     const parsedQuery = queryString.parse(window.location.search, { ignoreQueryPrefix: true })
     const audioUrl = parsedQuery.audioUrl;
@@ -224,6 +252,7 @@ class Transcription extends Component {
                           media={mediaProps}
                           audioHandler={this.audioHandler}
                           textChangeHandler={this.textChangeHandler}
+                          subjectChangeHandle={this.subjectChangeHandle}
                           chunkRemoveHandle={this.chunkRemoveHandle} /> }) }
 
     const inputBox = (mediaProps) => {
@@ -270,7 +299,7 @@ class Transcription extends Component {
       </Media>
       <SubmitForm submitTo={submitTo}
                   data={JSON.stringify(this.state.data)}
-                  assignmentId={assignmentId} />
+                  assignmentId={assignmentId}/>
     </section>
     )
   }
