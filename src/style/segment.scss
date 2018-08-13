@@ -1,0 +1,82 @@
+@import "./_constants";
+
+.segment {
+  padding: 0;
+  margin: 5px 0 0 3px;
+  font-weight: bold;
+  font-size: 13px;
+
+  .highlight {
+    color: $primary-color;
+
+    p {
+      margin: 0;
+      padding: 0 5px 0 0;
+      display: inline-block;
+    }
+    .highlight-text {
+      padding: 0;
+      margin: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
+
+      &:hover {
+        background-color: yellow;
+      }
+    }
+    sup {
+      padding: 0 3px 0 3px;
+      color: #6C7A89;
+    }
+  }
+
+  span {
+    width: 100%;
+  }
+
+  .chunk-time {
+    div {
+      display: inline-block;
+
+      p {
+        display: inline-block;
+        font-size: 10px;
+        margin-left: 10px;
+        color: $primary-color;
+      }
+    }
+
+    button {
+      margin: 0 2px 0 2px;
+      text-decoration: none;
+      padding: 2px 2px;
+      border-radius: 3px;
+    }
+
+    .time-control {
+      font-size: 0.8em;
+
+      .inc-button {
+        @include button-bg(#f2f2f2);
+      }
+      .dec-button {
+        @include button-bg(#f2f2f2);
+      }
+    }
+
+  }
+
+  .text-box {
+    width: 95%;
+    height: 50px;
+    border: 3px solid #cccccc;
+    padding: 5px;
+    font-family: Tahoma, sans-serif;
+  }
+}
+
+.edit-button {
+  border-radius: 10px;
+  @include button-bg(#f2f2f2);
+}
