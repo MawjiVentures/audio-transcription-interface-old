@@ -6,6 +6,7 @@ import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
 import SubmitForm from './components/submit_form';
+import WaveForm from './components/waveform'
 import moment from 'moment';
 
 const {
@@ -297,6 +298,7 @@ class Transcription extends Component {
           </section>
         }
       </Media>
+      <WaveForm />
       <SubmitForm submitTo={submitTo}
                   data={JSON.stringify(this.state.data)}
                   assignmentId={assignmentId}/>
