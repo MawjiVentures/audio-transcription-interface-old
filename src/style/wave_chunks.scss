@@ -1,0 +1,12 @@
+@import "./_constants";
+
+.wave-chunks {
+  .chunks-group {
+    display: flex;
+    flex-direction: row;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
