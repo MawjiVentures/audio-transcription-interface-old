@@ -299,11 +299,6 @@ class Transcription extends Component {
           </section>
         }
       </Media>
-      <div>
-        <WaveChunks chunks={this.state.data}
-                    duration={(this.mediaPlayer) ? this.mediaPlayer.duration : void 0}/>
-        <WaveForm />
-      </div>
       <SubmitForm submitTo={submitTo}
                   data={JSON.stringify(this.state.data)}
                   assignmentId={assignmentId}/>
