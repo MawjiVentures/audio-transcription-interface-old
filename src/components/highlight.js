@@ -90,13 +90,17 @@ class TextField extends Component {
 
     return(
       <p className="highlight-text" onClick={this.context.handleClick}>
-        <span onClick={this.handleClick}>{this.state.editing ? editBox : this.state.draftText}({this.context.start} - {this.context.end}): </span>
+        <span onClick={this.handleClick}>
+          {this.state.editing
+            ? editBox
+            : this.state.draftText}
+            ({this.context.start} - {this.context.end})
+            : </span>
         {this.context.text}
       </p>
     )
   }
 }
-
 
 class Highlight extends Component {
   render() {

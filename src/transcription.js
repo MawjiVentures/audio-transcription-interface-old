@@ -6,6 +6,8 @@ import './formatTime';
 import Segment from './segment';
 import './style/transcription.scss';
 import SubmitForm from './components/submit_form';
+import WaveForm from './components/waveform';
+import WaveChunks from './components/wave_chunks';
 import moment from 'moment';
 
 const {
@@ -282,7 +284,7 @@ class Transcription extends Component {
         { appIntro }
       <Media>
         { mediaProps =>
-          <section className="media">
+          <section className="media" ref={n => {this.mediaPlayer = mediaProps}}>
             { audioPlayer(mediaProps) }
             <section className="media-controls">
               { mediaInfo }
@@ -297,6 +299,11 @@ class Transcription extends Component {
           </section>
         }
       </Media>
+      <div>
+        <WaveChunks chunks={this.state.data}
+                    duration={(this.mediaPlayer) ? this.mediaPlayer.duration : void 0}/>
+        <WaveForm />
+      </div>
       <SubmitForm submitTo={submitTo}
                   data={JSON.stringify(this.state.data)}
                   assignmentId={assignmentId}/>
